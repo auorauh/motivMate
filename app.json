@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "motivMate",
-    "slug": "motivMate",
-    "version": "1.0.0",
+    "name": "MotivMate",
+    "slug": "MotivMate",
+    "version": "1.0.2",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/MotivMateLogo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -15,16 +15,26 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "infoPlist": {
+        "NSCameraUsageDescription": "Not Needed"
+      },
+      "supportsTablet": true,
+      "bundleIdentifier": "com.trentont.motivMateApp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.trentont.motivMateApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "36b17dea-6c7b-4aa1-bb7c-47f213386bd1"
+      }
     }
   }
 }
