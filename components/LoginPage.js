@@ -1,12 +1,9 @@
-import { StyleSheet, View, TextInput, Image, Text, Pressable, Modal} from 'react-native';
+import { StyleSheet, View, TextInput, Text, Pressable, Modal} from 'react-native';
 import { useState } from 'react'
 import axios from 'axios';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 function LoginPage(props) {
-
-  const [userScore, setuserScore] = useState('');
-  const [goalCompleted, setgoalCompleted] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [pass, setPass] = useState('');
   const [errorMsg, setError] = useState('');
@@ -23,46 +20,9 @@ function passInputHandler(enteredText) {
 function addPassHandler() {
     setPass('');
 }
-function setUser(user){
-    props.setUser(user);
-    props.setTheme(user.theme);
-  };
 function login(){
-    if((userEmail != undefined &&userEmail != null && userEmail != '') && (pass != undefined && pass != null && pass != '')){
-        userEmailCheck();
-    } else {
-        setError('Incorrect Email or Password');
-    }
+  props.login();
 }
-async function userEmailCheck(){
-    axios.get(`${props.API_URL}/users/${userEmail}`)
-  .then(response => {
-      passCheck(response.data);
-  })
-  .catch(error => {
-    console.log(error)
-    console.error(error.message);
-  });
-
-}
-function passCheck(user){
-    if (user.pass === pass){
-        props.setUser(user);
-        props.login();
-    }
-    else {
-      addPassHandler()
-      setError('Password Email/Incorrect');
-    }
-}
-function failedLogin(string){
-  console.log(string)
-  let str = string.toString();
-  setUserEmail('');
-  setPass('');
-  setError(str);
-}
-
     return (
         <Modal visible={props.visible} animationType="slide" >
           <View style={styles.LoginPage}>
@@ -103,7 +63,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     backgroundColor: '#fff9ef',
-    //backgroundColor: '#0e1111',
   },
   loginForm: {
     width: '100%',
