@@ -9,17 +9,17 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
 const red = {
-  primary: '#D62828',
+  primary: '#FFD0E6',
   secondary: 'gray',
   background: '#fff9ef'
 };
 const yellow = {
-  primary: '#FFBA08',
+  primary: '#FFF9C4',
   secondary: 'gray',
   background: '#fff9ef'
 };
 const blue = {
-  primary: '#00bcd4',
+  primary: '#B2DFDB',
   secondary: 'gray',
   background: '#fff9ef'
 };

@@ -84,7 +84,7 @@ function AnalyticsPage(props) {
             <View style={styles.container}>
       {props.userObj.thirtyDays.map((value, index) => (
         <View key={index} style={styles.barContainer}>
-          <View style={[styles.bar, { height: (value / maxDataValue) * 100 }, {backgroundColor: props.userObj.theme.primary}]} />
+          <View style={[styles.bar, { height: (value / maxDataValue) * 100 }, {backgroundColor: props.userObj.theme.primary}, value===0 ? null: {borderWidth: 1}]} />
         </View>
       ))}
     </View>
