@@ -47,35 +47,42 @@ function Settings(props) {
 
 
   function changeColor(color){
+    let theme = props.userObj.theme;
     switch (color) {
       case 'red':
         setNewTheme(red);
+        theme = red;
         break;
       case '#FFBA08':
         setNewTheme(yellow);
+        theme = yellow;
         break;
       case '#00bcd4':
         setNewTheme(blue);
+        theme = blue;
         break;
       case '#C8B6FF':
         setNewTheme(lavender);
+        theme = lavender;
         break;
       case '#000':
         setNewTheme(dark);
+        theme = dark;
         break;
       default:
         break;
     }
     setUserColor(color);
+    saveTheme(theme);
   }
   const setTheme = (newValue) => {
     props.setTheme(newValue);
   };
-  async function saveAndExit(){
-    props.userObj.theme = newTheme;
-    setTheme(newTheme);
+  async function saveTheme(theme){
+    props.userObj.theme = theme;
+    setTheme(theme);
     try {
-      const response = await axios.put(`${props.api}/users/${props.userObj._id}`, props.userObj);
+      const response = await axios.put(`${props.API_URL}/users/${props.userObj._id}`, props.userObj);
       props.cancel();
       return response.data;
     } catch (error) {
@@ -177,14 +184,12 @@ function logout(){
 }
 
     return (
-        <Modal visible={props.visible} animationType="slide" >
           <View style={[styles.settingPage, {backgroundColor:newTheme.background}]}>
             <View style={styles.header}>
-            <Pressable onPress={saveAndExit}><FontAwesome5 style={styles.headerText} name={'times-circle'} /></Pressable>
-            <FontAwesome5 style={[styles.userIcon, {color:newTheme.primary}]} name={'user-circle'} />
+            {/* <Pressable onPress={saveAndExit}><FontAwesome5 style={styles.headerText} name={'times-circle'} /></Pressable> */}
             </View>
             <View style={styles.userData}>
-              <View style={styles.settingSection}>
+              <View style={styles.colorTray}>
                 <Text style={[styles.title, {color:newTheme.secondary}]}>Choose your color</Text>
                 <Pressable style={[styles.red, styles.color]} onPress={() =>changeColor('red')}></Pressable>
                 <Pressable style={[styles.yellow, styles.color]} onPress={() =>changeColor('#FFBA08')}></Pressable>
@@ -210,7 +215,6 @@ function logout(){
               </View>
             </View>
           </View>
-      </Modal>
       );
 };
 
@@ -218,20 +222,9 @@ export default Settings;
 
 const styles = StyleSheet.create({
   settingPage: {
-    paddingTop: 25,
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-  },
-  header: {
-    width: '100%',
-    justifySelf: 'flex-start',
-  },
-  headerText: {
-    paddingTop: 10,
-    fontSize: 25,
-    color: 'gray',
   },
   userIcon: {
     fontSize: 100,
@@ -240,7 +233,6 @@ const styles = StyleSheet.create({
   userData: {
     width: '100%',
     height: '80%',
-    paddingTop: 40,
     justifyContent: 'space-between'
   },
   title: {
@@ -248,8 +240,14 @@ const styles = StyleSheet.create({
     top: 5,
     left: 10,
   },
+  colorTray: {
+    height: '30%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
   settingSection: {
-    height: '15%',
+    height: '20%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',

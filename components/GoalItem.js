@@ -21,26 +21,13 @@ function GoalItem(props){
 
     return (
     <Pressable onLongPress={props.onDeleteItem.bind(this, props._id)} style={({pressed}) => pressed && styles.pressedItem} onPress={props.complete.bind(this,props._id)}>
-        {props.value.title==null ? (
-        <View style={styles.emptyGoal}>
-          {/* empty goal element */}
-        </View>) 
-        : (
         <View style={props.value.complete? [styles.goalItem,styles.completeGoal] : [styles.goalItem, {backgroundColor:props.theme.primary}]}>
-            <View style={styles.editIcon}>
-              <FontAwesome5 style={{fontSize:15}} name={'edit'} />
+            <View style={styles.moveIcon}>
+              <FontAwesome5 name={'grip-lines'} />
             </View>
             <View style={styles.goalTextContainer}>
               <Text style={styles.goalText}>
-                  {props.value.title == '' ? ('___') : (props.value.title)}
-                  <View style={styles.goalType}>
-                      {props.value.type == 'daily' ? (
-                      <FontAwesome5 style={styles.goalTypeIcon} name={'clock'} />
-                    ) : (
-                      <FontAwesome5 style={styles.goalTypeIcon} name={'bullseye'} />
-                    ) 
-                    }
-                    </View>
+                  {props.value.title}
               </Text>
               <Text></Text> 
             </View>
@@ -63,7 +50,6 @@ function GoalItem(props){
             : <></>}
 
         </View>
-        )}
     </Pressable>
     )
 
@@ -77,29 +63,24 @@ const styles = StyleSheet.create({
         height: 100,
         width: '100%',
         borderRadius: 15,
-        //backgroundColor: '#00bcd4',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginRight: 23,
         marginTop: 25,
+        overflow: 'hidden',
       },
       goalTextContainer: {
         width: '70%',
         height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
         alignItems: 'center',
+        flexDirection: 'row',
       },
       goalText: {
-        padding: 0,
         fontSize: 25,
-        width: '70%',
       },
-      editIcon: {
-        position: 'absolute',
-        top: 5,
-        left: 10,
+      moveIcon: {
+        fontSize: 20,
+        marginLeft: 10,
       },
       goalType: {
         paddingLeft: 10,
@@ -112,21 +93,7 @@ const styles = StyleSheet.create({
       },
       diffColor:{
         height: '100%',
-        //borderWidth: 1,
-        width: '3%',
-        borderRadius: 1,
-        transform: [{translateX: -.05}],
-      },
-      emptyGoal: {
-        height: 115,
-        width: '100%',
-        borderRadius: 15,
-        borderWidth: 1,
-        borderColor: 'gray',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginRight: 24,
-        marginTop: 25,
+        width: '4%',
       },
       pressedItem: {
         opacity: .3,

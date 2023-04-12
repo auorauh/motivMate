@@ -2,7 +2,6 @@ import { View, TextInput, Button, StyleSheet, Modal, Text, Pressable, Keyboard} 
 import { useState } from 'react'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
-import {API_URL} from '@env';
 
 function GoalInput(props) {
     const [goalTitle, setGoalText] = useState('');

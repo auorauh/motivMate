@@ -10,7 +10,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator detachPreviousComponent={true}>
         <Stack.Screen name='LoginPage' options={{headerShown: false}} component={LoginPage}/>
         <Stack.Screen name='Main' options={{headerShown: false}} component={Main}/>
     </Stack.Navigator>

@@ -1,4 +1,4 @@
-import { StyleSheet, View, Button, Image, Text, Pressable, Modal, Dimensions} from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { useState, useEffect } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ProgressRing from './ProgressRing';
@@ -7,7 +7,7 @@ function AnalyticsPage(props) {
     const [userData, setUserData] = useState([]);
   const [maxScore, setMaxScore] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [percent, setPercenet] = useState(0);
+  const [percent, setPercent] = useState(0);
   const [color, setColor] = useState(props.userObj.theme.primary);
   const [fill, setFill] = useState('rgb(0, 188, 212)');
   const maxDataValue = Math.max(...props.userObj.thirtyDays);
@@ -23,26 +23,29 @@ function AnalyticsPage(props) {
   }, []);
   function calcualteMaxGoal(){
     let maxGoal = 0;
+    let complete = 0;
     for(let i=0;i<props.goals.length;i++){
       if(props.goals[i].type == 'daily'){
-        if(props.goals[i].difficulty == 'Hard'){
-          maxGoal += 100;
-        } else if (props.goals[i].difficulty =='Medium'){
-          maxGoal += 25;
-        } else {
-          maxGoal += 10;
+        maxGoal = maxGoal+1;
+        if(props.goals[i].complete == true){
+          complete = complete +1;
         }
       }
     }
+    for(let i=0;i<props.goals.length;i++){
+      if(props.goals[i].type == 'daily'){
+
+      }
+    }
   setMaxScore(maxGoal);
-  let calcProgress = ((props.userObj.dailyScore) / maxGoal);
-  if (calcProgress == 1){
-    setColor('#0CCA4A');
-  }
+  let calcProgress = (complete / maxGoal);
+  // if (calcProgress == 1){
+  //   setColor('#0CCA4A');
+  // }
   setProgress(calcProgress);
   let percent = Math.floor(calcProgress * 100);
   if (percent != NaN) {
-    setPercenet(percent);
+    setPercent(percent);
   }
   }
   function hexToRgb(hex) {
@@ -66,13 +69,7 @@ function AnalyticsPage(props) {
   };
 
     return (
-    <Modal visible={props.visible} animationType="slide" >
       <View style={[styles.analyticsPage, {backgroundColor:props.theme.background}]}>
-        <View style={styles.header}>
-        <Pressable onPress={props.cancel}><FontAwesome5 style={styles.headerText} name={'times-circle'} /></Pressable>
-        <FontAwesome5 style={[styles.userIcon, {color:props.theme.primary}]} name={'user-circle'} />
-        
-        </View>
         <View style={styles.userData}>
           <View>
             <View style={styles.progressStyle}>
@@ -99,7 +96,6 @@ function AnalyticsPage(props) {
           </View>
         </View>
       </View>
-  </Modal>
       );
 };
 
@@ -108,34 +104,12 @@ export default AnalyticsPage;
 const styles = StyleSheet.create({
   analyticsPage: {
     height: '100%',
-    paddingTop: 25,
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-  },
-  header: {
-    width: '100%',
-    justifySelf: 'flex-start',
-  },
-  headerText: {
-    paddingTop: 10,
-    fontSize: 25,
-    color: 'gray',
-  },
-  userIcon: {
-    fontSize: 100,
-    color: '#00bcd4',
-    alignSelf: 'center'
   },
   userData: {
     width: '100%',
     height: '80%',
-  },
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
   },
   bar: {
     width: 20,
@@ -150,7 +124,7 @@ const styles = StyleSheet.create({
   },
   dailyHeader: { 
     fontSize: 20,
-    marginTop: 50,
+    marginTop: 16,
   },
   progressStyle: { 
     position: 'relative',
@@ -160,6 +134,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '50%',
+    marginTop: 40,
   },
   progressRing: {
     marginTop: 40,

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, View, Pressable, Button, Image, Text, useColorScheme} from 'react-native';
+import GoalList from './GoalList';
 import GoalInput from './GoalInput';
 import AddGoalButton from './AddGoalButton';
 import UserPage from './UserPage';
@@ -8,31 +9,34 @@ import AnalyticsPage from './analyticsPage';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export default function Nav(props) {
-  const [userModal, setuserModal] = useState(false);
-  const [analytics, setAnalytics] = useState(false);
-  const [settings, setSettings] = useState(false);
 
+  useEffect(() => {
+    props.setMainComponent(props.goalList);
+},[])
+
+  function goalList(){
+    props.setMainComponent(props.goalList);
+  }
   function userButton(){
-    setuserModal(prev => !prev);
+    props.setMainComponent(<UserPage userObj={props.userObj} theme={props.theme} cancel={userButton}/>);
   }
   function analyticsButton(){
-    setAnalytics(prev => !prev);
+    props.setMainComponent(<AnalyticsPage goals={props.goals} userObj={props.userObj} theme={props.theme} cancel={analyticsButton}/>);
   }
   function settingsButton(){
-    setSettings(prev => !prev);
+    props.setMainComponent(<Settings API_URL={props.API_URL} setTheme={props.setTheme} theme={props.theme} userObj={props.userObj} cancel={settingsButton}/>);
   }
 
     return (
         <View style={styles.nav}>
-                {props.goalInput && <GoalInput API_URL={props.API_URL} userObj={props.userObj} onAddGoal={props.onAddGoal} cancel={props.cancel} test={props.test}/>}
-                {analytics && <AnalyticsPage goals={props.goals} userObj={props.userObj} theme={props.theme} cancel={analyticsButton}/>}
+        {props.goalInput && <GoalInput API_URL={props.API_URL} userObj={props.userObj} onAddGoal={props.onAddGoal} cancel={props.cancel} refreshGoalList={props.refreshGoalList}/>}
                 
-        <Pressable style={[styles.navItem, styles.selected]} onPress={props.refresh}>
-            <FontAwesome5 style={styles.navIcon} name={'plus-square'} />
+        <Pressable style={[styles.navItem]} onPress={goalList}>
+          <FontAwesome5 style={styles.navIcon} name={'plus-square'} />
         </Pressable>
 
         <Pressable style={styles.navItem} onPress={analyticsButton}> 
-            <FontAwesome5 style={[styles.navIcon, styles.rotate]} name={'align-right'} />
+          <FontAwesome5 style={[styles.navIcon, styles.rotate]} name={'align-right'} />
         </Pressable>
 
         <Pressable style={styles.goalBtn}>
@@ -41,12 +45,10 @@ export default function Nav(props) {
 
         <Pressable style={styles.navItem} onPress={userButton}>
           <FontAwesome5 style={styles.navIcon} name={'user'} />
-          {userModal && <UserPage userObj={props.userObj} theme={props.theme} cancel={userButton}/>}
         </Pressable>
 
         <Pressable style={styles.navItem} onPress={settingsButton}>
           <FontAwesome5 style={styles.navIcon} name={'cog'} />
-          {settings && <Settings api={props.api} setTheme={props.setTheme} theme={props.theme} userObj={props.userObj} cancel={settingsButton}/>}
         </Pressable>
       </View>
     );

@@ -5,12 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 function UserPage(props) {
 
     return (
-        <Modal visible={props.visible} animationType="slide" >
           <View style={[styles.userPage, {backgroundColor:props.theme.background}]}>
-            <View style={styles.header}>
-            <Pressable onPress={props.cancel}><FontAwesome5 style={styles.headerText} name={'times-circle'} /></Pressable>
-            <FontAwesome5 style={[styles.userIcon, {color:props.theme.primary}]} name={'user-circle'} />
-            </View>
             <View style={styles.userData}>
               <View style={styles.column}>
               <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.totalScore}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Total Score</Text></View>
@@ -23,7 +18,6 @@ function UserPage(props) {
             </View>
             {/* <Button title='Edit' onPress={props.cancel} color={'red'}/> */}
           </View>
-      </Modal>
       );
 };
 
@@ -32,20 +26,8 @@ export default UserPage;
 const styles = StyleSheet.create({
   userPage: {
     height: '100%',
-    paddingTop:25,
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-  },
-  header: {
-    width: '100%',
-    justifySelf: 'flex-start',
-  },
-  headerText: {
-    paddingTop: 10,
-    fontSize: 25,
-    color: 'gray',
   },
   userIcon: {
     fontSize: 100,
