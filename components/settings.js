@@ -209,7 +209,6 @@ function logout(){
               </View>
               <View style={styles.settingSection}></View>
               <View style={styles.settingSection}></View>
-              <View style={styles.settingSection}></View>
               <View style={styles.logout}>
                 <Button color="red" title="Log Out" onPress={logout}></Button>
               </View>
@@ -222,7 +221,7 @@ export default Settings;
 
 const styles = StyleSheet.create({
   settingPage: {
-    flex: 1,
+    height: '100%',
     alignItems: 'center',
     padding: 16,
   },
@@ -232,16 +231,16 @@ const styles = StyleSheet.create({
   },
   userData: {
     width: '100%',
-    height: '80%',
-    justifyContent: 'space-between'
+    flex: 1,
   },
   title: {
     position: 'absolute',
     top: 5,
     left: 10,
+    fontSize: 15,
   },
   colorTray: {
-    height: '30%',
+    height: '25%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -274,6 +273,6 @@ const styles = StyleSheet.create({
     backgroundColor: dark.background,
   },
   logout: {
-    marginBottom: '15%',
+    alignSelf: 'flex-start',
   }
 })

@@ -41,14 +41,23 @@ function GoalInput(props) {
                 />
                 <Text style={styles.subText}>What Type of Goal?</Text>
                 <View style={styles.types}>
-                  
                   <Pressable style={[styles.typeChoice, goalType == 'daily' ? styles.typeHighlight : styles.typeChoice]} onPress={() => {setType('daily'), Keyboard.dismiss()}}>
                     <FontAwesome5 style={[styles.typeText, goalType == 'daily' ? styles.dailySelected : styles.typeText]} name={'history'} /> 
                     <Text style={[styles.typeText, goalType == 'daily' ? styles.dailySelected : styles.typeText]}>Daily</Text>
                   </Pressable>
-                  <Pressable style={[styles.typeChoice, goalType == 'objective' ? styles.typeHighlight : styles.typeChoice]} onPress={() => {setType('objective'), Keyboard.dismiss()}}>
-                    <FontAwesome5 style={[styles.typeText, goalType == 'objective' ? styles.dailySelected : styles.typeText]} name={'bullseye'} /> 
-                    <Text style={[styles.typeText, goalType == 'objective' ? styles.dailySelected : styles.typeText]}>Objective</Text>
+                  <Pressable style={[styles.typeChoice, goalType == 'weekly' ? styles.typeHighlight : styles.typeChoice]} onPress={() => {setType('weekly'), Keyboard.dismiss()}}>
+                    <FontAwesome5 style={[styles.typeText, goalType == 'weekly' ? styles.dailySelected : styles.typeText]} name={'bullseye'} /> 
+                    <Text style={[styles.typeText, goalType == 'weekly' ? styles.dailySelected : styles.typeText]}>Weekly</Text>
+                  </Pressable>
+                </View>
+                <View style={styles.types}>
+                  <Pressable style={[styles.typeChoice, goalType == 'monthly' ? styles.typeHighlight : styles.typeChoice]} onPress={() => {setType('monthly'), Keyboard.dismiss()}}>
+                    <FontAwesome5 style={[styles.typeText, goalType == 'monthly' ? styles.dailySelected : styles.typeText]} name={'calendar-alt'} /> 
+                    <Text style={[styles.typeText, goalType == 'monthly' ? styles.dailySelected : styles.typeText]}>Monthly</Text>
+                  </Pressable>
+                  <Pressable style={[styles.typeChoice, goalType == 'ToDo' ? styles.typeHighlight : styles.typeChoice]} onPress={() => {setType('ToDo'), Keyboard.dismiss()}}>
+                    <FontAwesome5 style={[styles.typeText, goalType == 'ToDo' ? styles.dailySelected : styles.typeText]} name={'list-alt'} /> 
+                    <Text style={[styles.typeText, goalType == 'ToDo' ? styles.dailySelected : styles.typeText]}>To Do</Text>
                   </Pressable>
                 </View>
                 <Text style={styles.subText}>Goal Difficulty?</Text>
@@ -84,11 +93,12 @@ export default GoalInput;
 const styles = StyleSheet.create({
     inputContainer: {
         flex: 1,
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         alignItems: 'center',
         padding: 16,
         paddingTop: '40%',
         backgroundColor: '#fff9ef',
+        gap: 10,
         //backgroundColor: '#0e1111',
       },
       textInput: {
@@ -98,7 +108,51 @@ const styles = StyleSheet.create({
         color: 'gray',
         //marginBottom: 40,
         fontSize: 30
-
+      },
+      types: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-around',
+        height: '10%',
+        gap: 10,
+      },
+      typeChoice: {
+        borderWidth: 1,
+        borderColor: 'gray',
+        height: '100%',
+        width: '45%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20,
+      },
+      typeText: {
+        color: 'gray',
+        fontSize: 18,
+        fontWeight: 500,
+      },
+      subText: {
+        fontSize: 18,
+        fontWeight: 500,
+        color: 'gray',
+        alignSelf: 'flex-start',
+      },
+      dailySelected: {
+        //color: '#FFC107',
+        color: '#00bcd4',
+      },
+      typeHighlight: {
+        borderColor: '#00bcd4',
+        boxShadow: '0 0 10px #00bcd4',
+        borderWidth: 2,
+      },
+      difficulty: {
+        borderWidth: 1,
+        borderColor: 'gray',
+        height: '100%',
+        width: '30%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20,
       },
       buttonContainer: {
         flexDirection: 'row',
@@ -119,50 +173,6 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-      },
-      types: {
-        flexDirection: 'row',
-        width: '100%',
-        justifyContent: 'space-around',
-        height: '10%',
-        marginBottom: 10,
-        gap: 10,
-      },
-      typeChoice: {
-        borderWidth: 1,
-        borderColor: 'gray',
-        height: '100%',
-        width: '49%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 20,
-      },
-      typeText: {
-        color: 'gray',
-        fontSize: 18
-      },
-      subText: {
-        fontSize: 15,
-        color: 'gray',
-        alignSelf: 'flex-start',
-      },
-      dailySelected: {
-        //color: '#FFC107',
-        color: '#00bcd4',
-      },
-      typeHighlight: {
-        borderColor: '#00bcd4',
-        boxShadow: '0 0 10px #00bcd4',
-        borderWidth: 2,
-      },
-      difficulty: {
-        borderWidth: 1,
-        borderColor: 'gray',
-        height: '100%',
-        width: '33%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 20,
       },
       easy: {
         color: '#58cc02',

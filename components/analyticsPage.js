@@ -1,24 +1,14 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ProgressRing from './ProgressRing';
 
 function AnalyticsPage(props) {
-    const [userData, setUserData] = useState([]);
-  const [maxScore, setMaxScore] = useState(0);
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
-  const [color, setColor] = useState(props.userObj.theme.primary);
-  const [fill, setFill] = useState('rgb(0, 188, 212)');
-  const maxDataValue = Math.max(...props.userObj.thirtyDays);
+  const [maxDataValue, setMaxDataValue] = useState(Math.max(...props.userObj.lastTwoWeeks));
 
   useEffect(() => {
-    if(props.userObj.theme.background == '#0e1111') {
-      setColor('rgb(0, 188, 212)');
-    } else {
-      setFill(hexToRgb(color));
-    }
-    setUserData(props.userObj.thirtyDays);
     calcualteMaxGoal();
   }, []);
   function calcualteMaxGoal(){
@@ -32,41 +22,13 @@ function AnalyticsPage(props) {
         }
       }
     }
-    for(let i=0;i<props.goals.length;i++){
-      if(props.goals[i].type == 'daily'){
-
-      }
-    }
-  setMaxScore(maxGoal);
-  let calcProgress = (complete / maxGoal);
-  // if (calcProgress == 1){
-  //   setColor('#0CCA4A');
-  // }
-  setProgress(calcProgress);
-  let percent = Math.floor(calcProgress * 100);
-  if (percent != NaN) {
-    setPercent(percent);
+  if(complete !=0 && maxGoal != 0){
+    let calcProgress = (complete / maxGoal);
+    setProgress(calcProgress);
+    let percent = Math.floor(calcProgress * 100);
+      setPercent(percent);
   }
   }
-  function hexToRgb(hex) {
-    hex = hex.replace('#', '');
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-    return `rgb(${r}, ${g}, ${b})`;
-  }
-  const chartConfig = {
-    decimalPlaces: 0, // optional, defaults to 2dp
-    backgroundColor: "transparent",
-    backgroundGradientFrom: "transparent",
-    backgroundGradientTo: "transparent",
-    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    style: {
-      borderRadius: 16,
-    },
-  
-  };
 
     return (
       <View style={[styles.analyticsPage, {backgroundColor:props.theme.background}]}>
@@ -79,18 +41,17 @@ function AnalyticsPage(props) {
               <ProgressRing progress={percent} theme={props.userObj.theme}/>
               </View>
             </View>
-            <Text style={[styles.graphHeader, {color:props.theme.secondary}]}>Daily Score last 30 days</Text>
-            <View style={[{borderColor: props.userObj.theme.primary},{borderWidth:1},{marginTop: 40}]}>
+            <Text style={[styles.graphHeader, {color:props.theme.secondary}]}>Daily Score last 14 days</Text>
             <View style={styles.container}>
-      {props.userObj.thirtyDays.map((value, index) => (
-        <View key={index} style={styles.barContainer}>
-          <View style={[styles.bar, { height: (value / maxDataValue) * 100 }, {backgroundColor: props.userObj.theme.primary}, value===0 ? null: {borderWidth: 1}]} />
-        </View>
-      ))}
-    </View>
+                {props.userObj.lastTwoWeeks.map((value, index) => (
+                  <View key={index} style={styles.barContainer}>
+                    <View style={[styles.bar, maxDataValue===0? null :{ height: (value / maxDataValue) * 100 }, {backgroundColor: props.userObj.theme.primary}, value===0 ? null: {borderWidth: 1}]} />
+                    <Text style={[{color: props.userObj.theme.secondary}]}>{value}</Text>
+                  </View>
+                ))}
             </View>
             <View style={styles.barLabels}>
-            <Text style={{color:props.theme.secondary}}>30 Days Ago</Text>
+            <Text style={{color:props.theme.secondary}}>14 Days Ago</Text>
             <Text style={{color:props.theme.secondary}}>Today</Text>
             </View>
           </View>
@@ -103,13 +64,12 @@ export default AnalyticsPage;
 
 const styles = StyleSheet.create({
   analyticsPage: {
-    height: '100%',
     flex: 1,
     alignItems: 'center',
   },
   userData: {
     width: '100%',
-    height: '80%',
+    height: '90%',
   },
   bar: {
     width: 20,
@@ -117,27 +77,18 @@ const styles = StyleSheet.create({
     marginTop: 16,
     alignSelf: 'flex-end',
   },
-  label: {
-    fontSize: 12,
-    textAlign: 'center',
-    marginTop: 4,
-  },
   dailyHeader: { 
     fontSize: 20,
-    marginTop: 16,
   },
   progressStyle: { 
     position: 'relative',
     textAlign: 'center',
-    justifyContent: 'center',
-    alignContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: '50%',
-    marginTop: 40,
+    height: '55%',
   },
   progressRing: {
-    marginTop: 40,
     transform: [{ rotate: '-90deg' }]
   },
   nice: {
@@ -154,7 +105,6 @@ const styles = StyleSheet.create({
   },
   graphHeader: {
     alignSelf: 'center',
-    marginTop: 50,
     fontSize: 20,
   },
   barLabels : {
@@ -166,16 +116,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    paddingHorizontal: 5,
-    paddingTop: 10,
+    height: '30%',
   },
   barContainer: {
     flex: 1,
-    marginHorizontal: 2,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   bar: {
-    width: 15,
+    width: 25,
     backgroundColor: '#0080ff',
+    justifyContent: 'flex-end',
   },
 })
