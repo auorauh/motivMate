@@ -21,7 +21,7 @@ function LoginPage({navigation}) {
       let userEmail = await getLocalData('email');
       if(userEmail != null){
       cached = true;
-      fetch(`${API_URL}/users/${userEmail}`)
+      fetch(`${API_URL}/api/users/${userEmail}`)
       .then(response => response.json())
       .then(user => {navigation.navigate('Main', user)})
       .catch(err => failedLogin('unable to login'));
