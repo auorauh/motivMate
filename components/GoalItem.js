@@ -60,7 +60,7 @@ export default GoalItem;
 
 const styles = StyleSheet.create({
     goalItem:{
-        height: 100,
+        height: 80,
         width: '100%',
         borderRadius: 15,
         flexDirection: 'row',

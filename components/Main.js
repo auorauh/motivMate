@@ -122,7 +122,7 @@ function refresh(){
   setRefreshing(false);
 }
 async function getUser(email){
-    fetch(`${API_URL}/users/${email}`)
+    fetch(`${API_URL}/api/users/${email}`)
     .then(response => response.json())
     .then(user => {getUserHelper(user)})
     .catch(err => console.log(err));
@@ -132,7 +132,7 @@ async function getUser(email){
     setuserObj(user);
 }
 async function getGoals(_id) {
-    axios.get(`${API_URL}/users/goals/${_id}`, {
+    axios.get(`${API_URL}/api/users/goals/${_id}`, {
       params: {
         _id: userObj._id
       }
@@ -236,8 +236,8 @@ function completeGoal(_id) {
   }
 
   try {
-    axios.put(`${API_URL}/goals/${_id}`, goal);
-    axios.put(`${API_URL}/users/${userObj._id}`, userObj);
+    axios.put(`${API_URL}/api/users/goals/${_id}`, goal);
+    axios.put(`${API_URL}/api/users/${userObj.email}`, userObj);
   } catch (err) {
     console.log('.put /goals/_id or .put /users/_id ERROR', err);
   }
@@ -252,10 +252,10 @@ function completeGoal(_id) {
     userObj.score = adjustPoints(goal);
     //update user
     try {
-      const response = await axios.delete(`${API_URL}/deletegoals/${_id}`);
+      const response = await axios.delete(`${API_URL}/api/users/goals/${_id}`);
       if(goal.complete = true){
         try{
-          const response = axios.put(`${API_URL}/users/${userObj._id}`, userObj);
+          const response = axios.put(`${API_URL}/api/users/${userObj._id}`, userObj);
         } catch(err){
           console.log('.put /users/_id ERROR',err)
         }

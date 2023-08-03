@@ -18,13 +18,13 @@ function GoalInput(props) {
     }
     function postGoal(){
       let goal = {owner: props.userObj._id, title: goalTitle, complete: false, type: goalType, difficulty: level};
-      axios.post(`${props.API_URL}/newgoal`, goal, {
+      axios.post(`${props.API_URL}/api/goals`, goal, {
         headers: {
           'Content-Type': 'application/json'
         }
       })
       .then(res => props.onAddGoal(res.data))
-      .catch(err => console.log('Error'));
+      .catch(err => console.log(err));
     }
 
     return (

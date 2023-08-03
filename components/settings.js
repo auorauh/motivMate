@@ -82,7 +82,7 @@ function Settings(props) {
     props.userObj.theme = theme;
     setTheme(theme);
     try {
-      const response = await axios.put(`${props.API_URL}/users/${props.userObj._id}`, props.userObj);
+      const response = await axios.put(`${props.API_URL}/api/users/${props.userObj._id}`, props.userObj);
       props.cancel();
       return response.data;
     } catch (error) {

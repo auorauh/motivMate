@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput, Text, Pressable, Modal} from 'react-native';
+import { StyleSheet, View, TextInput, Text, Pressable, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -9,6 +9,7 @@ function LoginPage({navigation}) {
   const [name, setName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [pass, setPass] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setError] = useState('');
   const [creatingAccount, setCreation] = useState(false);
 
@@ -23,16 +24,21 @@ function LoginPage({navigation}) {
       cached = true;
       fetch(`${API_URL}/api/users/${userEmail}`)
       .then(response => response.json())
+      .then(responseJson => reviewResponse(responseJson))
       .then(user => {navigation.navigate('Main', user)})
-      .catch(err => failedLogin('unable to login'));
-      setTimeout(() => {
-          
-      }, 0);
-    }
+      .catch(err => failedLogin('Unable to login'));
+      setTimeout(() => { }, 0);
+      }
     } 
-    catch {
-
+    catch (e){
     }
+  }
+ function reviewResponse(response){
+    let user = response;
+    if(user.message == 'Error fetching user' || user.message == "User not found"){
+      throw new Error('Error fetching user');
+    }
+    return response;
   }
   async function deleteLocalData(key) {
     try {
@@ -76,7 +82,7 @@ function login(){
 }
 }
 function userEmailCheck(){
-    fetch(`${API_URL}/users/${userEmail}`)
+    fetch(`${API_URL}/api/users/${userEmail.toLowerCase()}`)
     .then(response => response.json())
     .then(user => {passCheck(user)})
     .catch(err => failedLogin('unable to login'));
@@ -117,17 +123,20 @@ function createAccount(){
   } else {
     setError('Please enter a vaild email');
   }
-  //call api - if successful close account creation
 }
 function newUserAPICall(){
   let user = {name: name, email: userEmail.toLowerCase(), pass: pass};
-  axios.post(`${API_URL}/users`, user, {
+  axios.post(`${API_URL}/api/users`, user, {
     headers: {
       'Content-Type': 'application/json'
     }
   })
-  .then(res => closeCreation())
-  .catch(err => console.log('Error'));
+  .then(res => successfulCreation())
+  .catch(err => console.log('Error' , err));
+}
+function successfulCreation(){
+  setSuccessMsg('Account Created');
+  closeCreation();
 }
 function closeCreation(){
   setUserEmail('');
@@ -137,10 +146,12 @@ function closeCreation(){
   setError('');
 }
     return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={styles.LoginPage}>
             <View style={styles.loginForm}>
             {!creatingAccount ?
             <View>
+                <Text style={styles.successMsg}>{successMsg}</Text>
                 <Text style={[styles.fontSizeMed]}>Sign In</Text>
                 <Text style={styles.errorMsg}>{errorMsg}</Text>
                 <TextInput style={styles.formInput} 
@@ -196,6 +207,7 @@ function closeCreation(){
                 }
             </View>
           </View>
+          </TouchableWithoutFeedback>
       );
 };
 
@@ -249,6 +261,9 @@ const styles = StyleSheet.create({
   },
   errorMsg: {
     color: 'red',
+  },
+  successMsg: {
+    color: 'green',
   },
   planeIcon: {
     fontSize: 15,

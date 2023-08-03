@@ -20,12 +20,13 @@ function setSelection(type){
             return obj;
         }
     });
+    setList(list);
 }
 const [count, setCount] = useState(0);
 
 // Define reset to be called from main on new goal
 function resetGoalList() {
-  setSelection(listTypes[0]);
+    setSelection(listTypes[0]);
 }
 useImperativeHandle(ref, () => ({
     resetGoalList
@@ -41,7 +42,7 @@ return (
             return item.id;
     }}/>
         </View>
-    <FlatList style={styles.goalSection} onRefresh={props.refresh} refreshing={props.refreshing} numColumns={1} data={props.userGoals} ItemSeparatorComponent={() => <View style={{ height: 25 }} />} renderItem={(itemData) => {
+    <FlatList style={styles.goalSection} onRefresh={props.refresh} refreshing={props.refreshing} numColumns={1} data={props.userGoals} ItemSeparatorComponent={() => <View style={{ height: 15 }} />} renderItem={(itemData) => {
         return <GoalItem theme={props.userObj.theme} value={itemData.item} onDeleteItem={props.deleteGoal} _id={itemData.item._id} complete={props.completeGoal}/>;
         }}
         keyExtractor={(item) => {
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray'
     },
     goalSection: {
-        height: '89%',
+        height: '90%',
     }
 })
 const listTypes = [
