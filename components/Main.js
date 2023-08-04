@@ -152,7 +152,7 @@ async function getGoals(_id) {
 }
 const updateTheme = (theme) => {
   setTheme(theme);
-  updateKey();
+  //updateKey();
 }
 function startAddGoal(){
   setGoalModal(true);
@@ -249,10 +249,10 @@ function completeGoal(_id) {
     async function deleteGoal(_id){
     let goal = userGoals.filter((goal) => goal._id == _id)[0];
     //if complete adjust points
-    userObj.score = adjustPoints(goal);
+    userObj.dailyScore = adjustPoints(goal);
     //update user
     try {
-      const response = await axios.delete(`${API_URL}/api/users/goals/${_id}`);
+      const response = await axios.delete(`${API_URL}/api/users/goals/${goal._id}`);
       if(goal.complete = true){
         try{
           const response = axios.put(`${API_URL}/api/users/${userObj._id}`, userObj);
@@ -308,7 +308,6 @@ function completeGoal(_id) {
         setUserGoals(toDoGoals);
         break;
       default:
-        console.log
         setUserGoals(allGoals);
         break;
     }

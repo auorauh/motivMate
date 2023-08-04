@@ -46,7 +46,7 @@ function Settings(props) {
   },[])
 
 
-  function changeColor(color){
+  async function changeColor(color){
     let theme = props.userObj.theme;
     switch (color) {
       case 'red':
@@ -82,7 +82,7 @@ function Settings(props) {
     props.userObj.theme = theme;
     setTheme(theme);
     try {
-      const response = await axios.put(`${props.API_URL}/api/users/${props.userObj._id}`, props.userObj);
+      const response = await axios.put(`${props.API_URL}/api/users/${props.userObj.email}`, props.userObj);
       props.cancel();
       return response.data;
     } catch (error) {
@@ -184,7 +184,7 @@ function logout(){
 }
 
     return (
-          <View style={[styles.settingPage, {backgroundColor:newTheme.background}]}>
+          <View style={[styles.settingPage, {backgroundColor: props.userObj.theme.background}]}>
             <View style={styles.header}>
             {/* <Pressable onPress={saveAndExit}><FontAwesome5 style={styles.headerText} name={'times-circle'} /></Pressable> */}
             </View>
