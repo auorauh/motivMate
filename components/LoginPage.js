@@ -1,17 +1,20 @@
 import { StyleSheet, View, TextInput, Text, Pressable, TouchableWithoutFeedback, Keyboard} from 'react-native';
-import { useState,useEffect } from 'react';
+import { useState,useEffect, useRef } from 'react';
 import axios from 'axios';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import storage from "@react-native-async-storage/async-storage";
+import SlidingNotification from './SlidingNotification';
 import {API_URL} from '@env';
+import { getLocalData, saveLocalData } from '../functions/localDataUtility';
 
 function LoginPage({navigation}) {
+  const childRef = useRef();
   const [name, setName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [pass, setPass] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setError] = useState('');
   const [creatingAccount, setCreation] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     checkForCache();
@@ -21,6 +24,7 @@ function LoginPage({navigation}) {
     try {
       let userEmail = await getLocalData('email');
       if(userEmail != null){
+      childRef.current.OpenSpinner();
       cached = true;
       fetch(`${API_URL}/api/users/${userEmail}`)
       .then(response => response.json())
@@ -34,36 +38,12 @@ function LoginPage({navigation}) {
     }
   }
  function reviewResponse(response){
-    let user = response;
-    if(user.message == 'Error fetching user' || user.message == "User not found"){
+    if(response.message == 'Error fetching user' || response.message == "User not found"){
+      childRef.current.CloseSpinner();
       throw new Error('Error fetching user');
     }
+    childRef.current.CloseSpinner();
     return response;
-  }
-  async function deleteLocalData(key) {
-    try {
-      await storage.removeItem(key);
-      //console.log(`Deleted ${key}`);
-    } catch (error) {
-      console.log(`Error deleting ${key}:`, error);
-    }
-  }
-  async function saveLocalData(key, value) {
-    try {
-      await storage.setItem(key, JSON.stringify(value));
-      //console.log(`Saved ${key}: ${JSON.stringify(value)}`);
-    } catch (error) {
-      console.log(`Error saving ${key}:`, error);
-    }
-  }
-  async function getLocalData(key) {
-    try {
-      const value = await storage.getItem(key);
-      //console.log(`Retrieved ${key}: ${value}`);
-      return value != null ? JSON.parse(value) : null;
-    } catch (error) {
-      console.log(`Error retrieving ${key}:`, error);
-    }
   }
 function nameInputHandler(enteredText) {
   setName(enteredText);
@@ -82,10 +62,10 @@ function login(){
 }
 }
 function userEmailCheck(){
-    fetch(`${API_URL}/api/users/${userEmail.toLowerCase()}`)
+    fetch(`${API_URL}/api/users/${userEmail}`)
     .then(response => response.json())
     .then(user => {passCheck(user)})
-    .catch(err => failedLogin('unable to login'));
+    .catch(err => failedLogin('Unable to login'));
 }
 function passCheck(user){
     if (user.pass === pass){
@@ -147,9 +127,11 @@ function closeCreation(){
 }
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <>
+        <SlidingNotification loading={loading} ref={childRef}/>
           <View style={styles.LoginPage}>
             <View style={styles.loginForm}>
-            {!creatingAccount ?
+            {!creatingAccount ?    
             <View>
                 <Text style={styles.successMsg}>{successMsg}</Text>
                 <Text style={[styles.fontSizeMed]}>Sign In</Text>
@@ -207,6 +189,7 @@ function closeCreation(){
                 }
             </View>
           </View>
+              </>
           </TouchableWithoutFeedback>
       );
 };
@@ -215,12 +198,13 @@ export default LoginPage;
 
 const styles = StyleSheet.create({
     LoginPage: {
-    marginTop: 15,
     flex: 1,
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
     backgroundColor: '#fff9ef',
+    zIndex: -100
   },
   loginForm: {
     width: '100%',

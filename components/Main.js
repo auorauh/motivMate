@@ -9,6 +9,7 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import storage from "@react-native-async-storage/async-storage";
 import {API_URL} from '@env';
+import { blue } from '../functions/colors' 
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -17,12 +18,6 @@ Notifications.setNotificationHandler({
     shouldSetBadge: true
   })
 });
-
-const blue = {
-  primary: '#00bcd4',
-  secondary: '#gray',
-  background: '#fff9ef'
-};
 
 export default function App( {route} ) {
   const [component, setComponent] = useState(goalList)
@@ -186,7 +181,6 @@ setComponent(component);
 }
 function completeGoal(_id) {
   const goal = userGoals.find((goal) => goal._id === _id);
-
   if (!goal) return;
 
   const updateScore = (diff) => {
@@ -195,7 +189,6 @@ function completeGoal(_id) {
       Medium: 25,
       Hard: 100,
     };
-
     if (score - diff >= 0) {
       userObj.dailyScore = score - diff;
       setScore(score - diff);
@@ -248,14 +241,12 @@ function completeGoal(_id) {
 
     async function deleteGoal(_id){
     let goal = userGoals.filter((goal) => goal._id == _id)[0];
-    //if complete adjust points
     userObj.dailyScore = adjustPoints(goal);
-    //update user
     try {
-      const response = await axios.delete(`${API_URL}/api/users/goals/${goal._id}`);
+      await axios.delete(`${API_URL}/api/users/goals/${goal._id}`);
       if(goal.complete = true){
         try{
-          const response = axios.put(`${API_URL}/api/users/${userObj._id}`, userObj);
+          await axios.put(`${API_URL}/api/users/${userObj._id}`, userObj);
         } catch(err){
           console.log('.put /users/_id ERROR',err)
         }
@@ -360,12 +351,6 @@ const styles = StyleSheet.create({
   nav: {
     zIndex: 100,
   },
-  allComplete: {
-    backgroundColor: '#90EE90',
-  },
-  notComplete: {
-    backgroundColor: '#fff9ef',
-  },
   logoContainer: {
     width: '100%',
     alignItems: 'center',
@@ -374,7 +359,7 @@ const styles = StyleSheet.create({
     
   },
   userIcon: {
-    marginTop: '10%',
+    marginTop: '5%',
     fontSize: 50,
     color: '#00bcd4',
   },

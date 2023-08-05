@@ -7,7 +7,6 @@ function GoalInput(props) {
     const [goalTitle, setGoalText] = useState('');
     const [goalType, setType] = useState('daily');
     const [level, setLevel] = useState('Easy');
-    const [_id, setId] = useState(null);
 
     function goalInputHandler(enteredText) {
         setGoalText(enteredText);
@@ -29,7 +28,7 @@ function GoalInput(props) {
 
     return (
         <Modal visible={props.visible} animationType="slide" >
-            <View style={[styles.inputContainer, {backgroundColor: props.userObj.theme.background}]}>
+            <View style={[styles.inputContainer, {backgroundColor:props.userObj.theme.background}]}>
               <Text style={styles.subText}>Give your goal a title</Text>
                 <TextInput style={styles.textInput} 
                   placeholder='Title your goal here'
@@ -97,9 +96,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 16,
         paddingTop: '40%',
-        //backgroundColor: '#fff9ef',
+        backgroundColor: '#fff9ef',
         gap: 10,
-        //backgroundColor: '#0e1111',
       },
       textInput: {
         borderBottomWidth: 1,
