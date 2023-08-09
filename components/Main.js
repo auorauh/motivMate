@@ -343,10 +343,9 @@ function completeGoal(_id) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     paddingTop: 40,
     height: '90%',
-    width: '100%',
+    width: '100%'
   },
   nav: {
     zIndex: 100,
@@ -368,27 +367,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 20,
   },
-  goalsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  image: {
-    width: 100,
-    height: 100,
-    resizeMode: 'contain',
-  },
   goalSection: {
-    height: '90%',
-    marginBottom: '10%',
-  },
-  GoalSq: {
-    height: 115,
-    width: 115,
-    borderRadius: 15,
-    backgroundColor: '#d4af37',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    padding: 10,
+    height: '85%',
   },
   nav: {
     height: '10%',
@@ -398,6 +378,13 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   navIcon: {
-    fontSize: 15
+    fontSize: 15,
+    borderColor: 'lightgray',
+  },
+  navIconBorderLeft: {
+    borderWidthLeft: 1,
+  },
+  navIconBorderRight: {
+    borderWidthRight: 1,
   },
 });

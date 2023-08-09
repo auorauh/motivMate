@@ -78,8 +78,8 @@ function Settings(props) {
     await saveLocalData('NotiesScheduled',{scheduled: true});
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "Reminder to review your goals!",
-        body: "Beat your score yesterday and complete some daily goals!",
+        title: "Be your best today!",
+        body: "Plan your day!",
         // data: { data: "data goes here" }
       },
       trigger: {
@@ -90,8 +90,8 @@ function Settings(props) {
     });
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "Update your score and check out your score!",
-        body: "Mark your goals complete and see if your score is acceptable!",
+        title: "Update your MotivMate!",
+        body: "Mark your goals complete, see your score!",
         // data: { data: "data goes here" }
       },
       trigger: {
@@ -102,7 +102,7 @@ function Settings(props) {
     });
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "Last chance to complete some goals!",
+        title: "Dont forget your goals!",
         body: "Beat your score yesterday and complete some daily goals!",
         // data: { data: "data goes here" }
       },

@@ -55,6 +55,7 @@ return (
 export default forwardRef(GoalList);
 
 const styles = StyleSheet.create({
+    //list Type styles
     listType: { 
         width: '100%',
         alignItems: 'center',
@@ -75,8 +76,12 @@ const styles = StyleSheet.create({
         borderTopWidth: 2,
         borderColor: 'gray'
     },
+
+    //goal section styles
     goalSection: {
-        height: '90%',
+        padding: 10,
+        paddingTop: 0,
+        marginBottom: '7%',
     }
 })
 const listTypes = [

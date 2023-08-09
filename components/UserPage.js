@@ -8,13 +8,20 @@ function UserPage(props) {
           <View style={[styles.userPage, {backgroundColor:props.theme.background}]}>
             <View style={styles.userData}>
               <View style={styles.column}>
-              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.totalScore}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Total Score</Text></View>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.hiScore}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Daily Hi-Score</Text></View>
               <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.goalsCompleted}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Goals Completed</Text></View>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.perfectDays}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Perfect Days</Text></View>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.perfectScore}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Perfect Score</Text></View>
               </View>
               <View style={styles.column}>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.motivRank}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>MotivRank</Text></View>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.totalScore}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Total Score</Text></View>
               <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.name}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Name</Text></View>
               <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.smFontSize, {color:props.theme.secondary}]}>{props.userObj.email}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Email</Text></View>
               </View>
+            </View>
+            <View style={styles.infoSection}>
+              {/* <Text>Your MotivRank is based on your score vs the MotivMate community.</Text> */}
             </View>
             {/* <Button title='Edit' onPress={props.cancel} color={'red'}/> */}
           </View>
@@ -36,7 +43,6 @@ const styles = StyleSheet.create({
   },
   userData: {
     width: '90%',
-    height: '80%',
     paddingTop: 40,
     flexDirection: 'row',
   },
@@ -51,6 +57,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 5,
     justifyContent: 'center',
+  },
+  infoSection: {
   },
   itemAlignCenter: {
     alignSelf: 'center',

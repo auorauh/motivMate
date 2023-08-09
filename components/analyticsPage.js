@@ -30,31 +30,31 @@ function AnalyticsPage(props) {
   }
   }
 
-    return (
+      return (
       <View style={[styles.analyticsPage, {backgroundColor:props.theme.background}]}>
         <View style={styles.userData}>
-          <View>
-            <View style={styles.progressStyle}>
-              <Text style={[styles.dailyHeader, {color:props.theme.secondary}]} >You completed {percent}% of your daily goals.</Text>
+          <View style={[styles.ringContainer, styles.progressStyle]}>
+            <Text style={[styles.dailyHeader, {color:props.theme.secondary}]} >You completed {percent}% of your daily goals.</Text>
             <View style={styles.progressRing}>
-            {progress == 1 && <FontAwesome5 style={styles.nice} name={'check-circle'}/>}
-              <ProgressRing progress={percent} theme={props.userObj.theme}/>
-              </View>
-            </View>
-            <Text style={[styles.graphHeader, {color:props.theme.secondary}]}>Daily Score last 14 days</Text>
-            <View style={styles.container}>
-                {props.userObj.lastTwoWeeks.map((value, index) => (
-                  <View key={index} style={styles.barContainer}>
-                    <View style={[styles.bar, maxDataValue===0? null :{ height: (value / maxDataValue) * 100 }, {backgroundColor: props.userObj.theme.primary}, value===0 ? null: {borderWidth: 1}]} />
-                    <Text style={[{color: props.userObj.theme.secondary}]}>{value}</Text>
-                  </View>
-                ))}
-            </View>
-            <View style={styles.barLabels}>
-            <Text style={{color:props.theme.secondary}}>14 Days Ago</Text>
-            <Text style={{color:props.theme.secondary}}>Today</Text>
+                {progress == 1 && <FontAwesome5 style={styles.nice} name={'check-circle'}/>}
+                <ProgressRing progress={percent} theme={props.userObj.theme}/>
             </View>
           </View>
+          <View style={styles.container}>
+            <Text style={[styles.graphHeader, {color:props.theme.secondary}]}>Daily Score last 14 days</Text>
+            <View style={styles.graph}>
+              {props.userObj.lastTwoWeeks.map((value, index) => (
+              <View key={index} style={styles.barContainer}>
+                <View style={[styles.bar, maxDataValue===0? null :{ height: (value / maxDataValue) * 100 }, {backgroundColor: props.userObj.theme.primary}, value===0 ? null: {borderWidth: 1}]} />
+                <Text style={[{color: props.userObj.theme.secondary}]}>{value}</Text>
+              </View>
+              ))}
+            </View>
+            <View style={styles.barLabels}>
+              <Text style={{color:props.theme.secondary}}>^14 Days Ago</Text>
+              <Text style={{color:props.theme.secondary}}>Today^</Text>
+            </View>
+          </View>       
         </View>
       </View>
       );
@@ -64,32 +64,35 @@ export default AnalyticsPage;
 
 const styles = StyleSheet.create({
   analyticsPage: {
-    flex: 1,
     alignItems: 'center',
+    padding: 10,
+    height: '100%',
   },
   userData: {
     width: '100%',
-    height: '90%',
+    justifyContent:  'space-between',
   },
-  bar: {
-    width: 20,
-    backgroundColor: 'blue',
-    marginTop: 16,
-    alignSelf: 'flex-end',
+  ringContainer: {
+    justifyContent: 'space-around',
+    flexDirection: 'column',
+    textAlign: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
   dailyHeader: { 
     fontSize: 20,
+    marginTop: '3%',
   },
   progressStyle: { 
-    position: 'relative',
     textAlign: 'center',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: '55%',
   },
   progressRing: {
-    transform: [{ rotate: '-90deg' }]
+    marginTop: '10%',
+    marginBottom: '10%',
+    transform: [{ rotate: '-90deg' }],
   },
   nice: {
     position: 'absolute',
@@ -103,28 +106,37 @@ const styles = StyleSheet.create({
     fontSize: 40,
     transform: [{ rotate: '90deg' }]
   },
-  graphHeader: {
-    alignSelf: 'center',
-    fontSize: 20,
-  },
-  barLabels : {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
   container: {
+    textAlign: 'center',
+    borderRadius: 15,
+    backgroundColor: 'lightgray',
+    height: '45%',
+    justifyContent: 'space-evenly'
+
+  },
+  graphHeader: {
+    textAlign: 'center',
+    fontSize: 20,
+    marginBottom: '10%'
+  },
+  graph: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    height: '30%',
   },
   barContainer: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    alignSelf:'flex-end',
   },
   bar: {
     width: 25,
     backgroundColor: '#0080ff',
     justifyContent: 'flex-end',
+  },
+  barLabels : {
+    color: 'red',
+    width: '95%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'center'
   },
 })

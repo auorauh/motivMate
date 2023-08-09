@@ -27,7 +27,7 @@ function GoalInput(props) {
     }
 
     return (
-        <Modal visible={props.visible} animationType="slide" >
+      <Modal animationType="slide">
             <View style={[styles.inputContainer, {backgroundColor:props.userObj.theme.background}]}>
               <Text style={styles.subText}>Give your goal a title</Text>
                 <TextInput style={styles.textInput} 
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
         paddingTop: '40%',
         backgroundColor: '#fff9ef',
         gap: 10,
+        ///backgroundColor: '#0e1111',
       },
       textInput: {
         borderBottomWidth: 1,

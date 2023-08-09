@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { StyleSheet, View, Pressable, Button, Image, Text, useColorScheme} from 'react-native';
+import { useEffect } from 'react';
+import { StyleSheet, View, Pressable} from 'react-native';
 import GoalList from './GoalList';
 import GoalInput from './GoalInput';
 import AddGoalButton from './AddGoalButton';
@@ -28,8 +28,8 @@ export default function Nav(props) {
   }
 
     return (
-        <View style={styles.nav}>
-        {props.goalInput && <GoalInput API_URL={props.API_URL} userObj={props.userObj} onAddGoal={props.onAddGoal} cancel={props.cancel} refreshGoalList={props.refreshGoalList}/>}
+        <View style={[styles.nav, {backgroundColor: props.theme.background}]}>
+        {props.goalInput && <GoalInput API_URL={props.API_URL} userObj={props.userObj} onAddGoal={props.onAddGoal} cancel={props.cancel}/>}
                 
         <Pressable style={[styles.navItem]} onPress={goalList}>
           <FontAwesome5 style={styles.navIcon} name={'plus-square'} />
@@ -57,11 +57,13 @@ const styles = StyleSheet.create({
     nav: {
         height: '10%',
         width: '100%',
-        backgroundColor: '#8C877E',
+        //backgroundColor: '#8C877E',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
         zIndex: 0,
+        borderTopWidth: 1,
+        borderColor: 'lightgray'
       },
       navItem: {
         height: '100%',
