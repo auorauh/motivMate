@@ -5,7 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 function UserPage(props) {
 
     return (
-          <View style={[styles.userPage, {backgroundColor:props.theme.background}]}>
+          <View style={[styles.userPage]}>
             <View style={styles.userData}>
               <View style={styles.column}>
               <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.hiScore}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Daily Hi-Score</Text></View>

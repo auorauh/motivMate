@@ -133,7 +133,7 @@ function logout(){
 }
 
     return (
-          <View style={[styles.settingPage, {backgroundColor: props.userObj.theme.background}]}>
+          <View style={[styles.settingPage]}>
             <View style={styles.header}>
             {/* <Pressable onPress={saveAndExit}><FontAwesome5 style={styles.headerText} name={'times-circle'} /></Pressable> */}
             </View>
@@ -148,7 +148,6 @@ function logout(){
               </View>
               <View style={styles.settingSection}>
                 <Text style={[styles.title, {color:newTheme.secondary}]}>Notifications</Text>
-                <Text style={[{color:newTheme.secondary}]}>Daily Reminders?</Text>
                 <Switch
                 // trackColor={{false: '#767577', true: props.userObj.theme.primary}}
                 ios_backgroundColor="#3e3e3e"
@@ -195,10 +194,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   settingSection: {
-    height: '20%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    alignItems: 'flex-end',
+    marginBottom: '4%',
   },
   color: {
     height: 55,

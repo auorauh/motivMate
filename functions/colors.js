@@ -1,21 +1,21 @@
 export const red = {
     primary: '#FFD0E6',
-    secondary: 'gray',
+    secondary: 'black',
     background: '#fff9ef'
   };
 export  const yellow = {
     primary: '#FFF9C4',
-    secondary: 'gray',
+    secondary: 'black',
     background: '#fff9ef'
   };
 export  const blue = {
     primary: '#B2DFDB',
-    secondary: 'gray',
+    secondary: 'black',
     background: '#fff9ef'
   };
 export  const lavender = {
     primary: '#C8B6FF',
-    secondary: 'gray',
+    secondary: 'black',
     background: '#fff9ef'
   };
 export  const dark = {

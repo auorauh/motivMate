@@ -2,6 +2,7 @@ import { StyleSheet, View, Text, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ProgressRing from './ProgressRing';
+import DottedBackground from '../assets/DottedBackground';
 
 function AnalyticsPage(props) {
   const [progress, setProgress] = useState(0);
@@ -31,7 +32,8 @@ function AnalyticsPage(props) {
   }
 
       return (
-      <View style={[styles.analyticsPage, {backgroundColor:props.theme.background}]}>
+      <View style={[styles.analyticsPage]}>
+        
         <View style={styles.userData}>
           <View style={[styles.ringContainer, styles.progressStyle]}>
             <Text style={[styles.dailyHeader, {color:props.theme.secondary}]} >You completed {percent}% of your daily goals.</Text>
@@ -45,7 +47,7 @@ function AnalyticsPage(props) {
             <View style={styles.graph}>
               {props.userObj.lastTwoWeeks.map((value, index) => (
               <View key={index} style={styles.barContainer}>
-                <View style={[styles.bar, maxDataValue===0? null :{ height: (value / maxDataValue) * 100 }, {backgroundColor: props.userObj.theme.primary}, value===0 ? null: {borderWidth: 1}]} />
+                <View style={[styles.bar, maxDataValue===0? {height: 100 , backgroundColor: 'none'} :{ height: (value / maxDataValue) * 100 ,backgroundColor: props.userObj.theme.primary}, value===0 ? {borderBottomWidth: 1}: {borderWidth: 1}]} />
                 <Text style={[{color: props.userObj.theme.secondary}]}>{value}</Text>
               </View>
               ))}
@@ -54,6 +56,7 @@ function AnalyticsPage(props) {
               <Text style={{color:props.theme.secondary}}>^14 Days Ago</Text>
               <Text style={{color:props.theme.secondary}}>Today^</Text>
             </View>
+            <DottedBackground/>
           </View>       
         </View>
       </View>
@@ -109,15 +112,17 @@ const styles = StyleSheet.create({
   container: {
     textAlign: 'center',
     borderRadius: 15,
-    backgroundColor: 'lightgray',
-    height: '45%',
-    justifyContent: 'space-evenly'
+    backgroundColor: '#D3D3D3',
+    //height: '35%',
+    justifyContent: 'space-evenly',
+    overflow: 'hidden'
 
   },
   graphHeader: {
     textAlign: 'center',
     fontSize: 20,
-    marginBottom: '10%'
+    marginBottom: '10%',
+    marginTop: '5%',
   },
   graph: {
     flexDirection: 'row',
@@ -133,10 +138,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   barLabels : {
-    color: 'red',
     width: '95%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginBottom: '5%',
   },
 })

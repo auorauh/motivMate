@@ -10,6 +10,8 @@ import Constants from 'expo-constants';
 import storage from "@react-native-async-storage/async-storage";
 import {API_URL} from '@env';
 import { blue } from '../functions/colors' 
+import BackgroundSVG from '../assets/BackgroundSVG';
+import DarkBackground from '../assets/DarkBackground';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -114,7 +116,7 @@ function refresh(){
   getGoals(userObj._id);
   sortGoals(userGoals);
   check();
-  setRefreshing(false);
+  //setRefreshing(false);
 }
 async function getUser(email){
     fetch(`${API_URL}/api/users/${email}`)
@@ -283,6 +285,7 @@ function completeGoal(_id) {
     setWeeklyGoals(goals.filter(goal => goal.type === 'weekly'));
     setMonthlyGoals(goals.filter(goal => goal.type === 'monthly'));
     setToDoGoals(goals.filter(goal => goal.type === 'ToDo'));
+    setRefreshing(false);
   }
   function setListType(type){
     switch(type.id) {
@@ -312,8 +315,9 @@ function completeGoal(_id) {
 
   return (
     <>
+    {userObj.theme.background != '#0e1111' ?  <BackgroundSVG/> : <DarkBackground/>}
     {theme.background != '#0e1111' ? <StatusBar style='dark'/> : <StatusBar style='light'/>}
-    <View style={[styles.container, {backgroundColor:theme.background}]}>
+    <View style={[styles.container]}>
       <View style={styles.logoContainer}>
       <FontAwesome5 style={[styles.userIcon, userObj == {} ? {color:'#00bcd4'} : {color:theme.primary}]} name={'user-circle'} />
       <Text style={styles.scoreText}>Score: {score}</Text>
@@ -336,7 +340,8 @@ function completeGoal(_id) {
         goalInput={goalModal} 
         addGoal={startAddGoal}  
         onAddGoal={addGoalHandler} 
-        cancel={cancelGoal}/>
+        cancel={cancelGoal}
+      />
     </>
   );
 }
@@ -380,11 +385,5 @@ const styles = StyleSheet.create({
   navIcon: {
     fontSize: 15,
     borderColor: 'lightgray',
-  },
-  navIconBorderLeft: {
-    borderWidthLeft: 1,
-  },
-  navIconBorderRight: {
-    borderWidthRight: 1,
   },
 });

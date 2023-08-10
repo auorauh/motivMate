@@ -32,11 +32,11 @@ export default function Nav(props) {
         {props.goalInput && <GoalInput API_URL={props.API_URL} userObj={props.userObj} onAddGoal={props.onAddGoal} cancel={props.cancel}/>}
                 
         <Pressable style={[styles.navItem]} onPress={goalList}>
-          <FontAwesome5 style={styles.navIcon} name={'plus-square'} />
+          <FontAwesome5 style={[styles.navIcon, props.theme.background == '#0e1111' ? {color: 'white'}:null]} name={'plus-square'} />
         </Pressable>
 
         <Pressable style={styles.navItem} onPress={analyticsButton}> 
-          <FontAwesome5 style={[styles.navIcon, styles.rotate]} name={'align-right'} />
+          <FontAwesome5 style={[styles.navIcon, styles.rotate, props.theme.background == '#0e1111' ? {color: 'white'}:null]} name={'align-right'} />
         </Pressable>
 
         <Pressable style={styles.goalBtn}>
@@ -44,11 +44,11 @@ export default function Nav(props) {
         </Pressable>
 
         <Pressable style={styles.navItem} onPress={userButton}>
-          <FontAwesome5 style={styles.navIcon} name={'user'} />
+          <FontAwesome5 style={[styles.navIcon, props.theme.background == '#0e1111' ? {color: 'white'}:null]} name={'user'} />
         </Pressable>
 
         <Pressable style={styles.navItem} onPress={settingsButton}>
-          <FontAwesome5 style={styles.navIcon} name={'cog'} />
+          <FontAwesome5 style={[styles.navIcon, props.theme.background == '#0e1111' ? {color: 'white'}:null]} name={'cog'} />
         </Pressable>
       </View>
     );
