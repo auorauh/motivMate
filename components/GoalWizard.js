@@ -2,7 +2,7 @@ import { View, TextInput, Button, StyleSheet, Text, Pressable,TouchableWithoutFe
 import { useState, useRef, useEffect } from 'react'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
-import {intro, step1,step2,step3,step4,step5,Finance } from '../functions/wizardHelper';
+import {intro, step1,step2,step3,step4,step5,Finance,Health,Education,Work,Social,Personal } from '../functions/wizardHelper';
 
 
 function GoalWizard(props) {
@@ -38,9 +38,10 @@ function GoalWizard(props) {
           setSelectedButton(-1);
           break;
         case 2:
-          setHeader(step2.header);setSelectedButton
+          setHeader(step2.header);
           setSubHeader(step2.subHeader);
-          setContent(Finance.content);
+          subCategoryContent(category);
+          //setContent(Finance.content);
           setSelectedButton(-1);
           break;
         case 3:
@@ -71,12 +72,37 @@ function GoalWizard(props) {
         setDisabled(true);
       }
     }
+    function subCategoryContent(subcategory){
+      switch (subcategory) {
+        case 'Health':
+          setContent(Health.content);
+          break;
+        case 'Finance':
+          setContent(Finance.content);
+          break;
+        case 'Education':
+          setContent(Education.content);
+          break;
+        case 'Work':
+          setContent(Work.content);
+          break;
+        case 'Personal':
+          setContent(Personal.content);
+          break;
+        case 'Social':
+          setContent(Social.content);
+          break;
+        default:
+          break;
+      }
+    }
 
     function buttonSelect(text, index){
       setSelectedCategory(category);
       setSelectedButton(index);
       switch (stage) {
         case 1:
+          setCategory(text);
           break;
         case 2:
           setGoalHelperText(text);
@@ -258,7 +284,7 @@ const styles = StyleSheet.create({
         borderWidth: 1
       },
       goalTitle: {
-        marginLeft: 10
+        marginLeft: 10,
       },
       goalTarget:{
         marginTop: 20,

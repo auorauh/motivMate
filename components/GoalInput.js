@@ -74,7 +74,6 @@ function GoalInput(props) {
          }, 1200);
     }
     function postGoal(){
-      console.log(goalTitle);
       let goal = {owner: props.userObj._id, title: goalTitle, complete: false, type: goalType, difficulty: level};
       axios.post(`${props.API_URL}/api/goals`, goal, {
         headers: {
@@ -85,7 +84,6 @@ function GoalInput(props) {
       .catch(err => console.log(err));
     }
     function toggleGoalWizard(toggleWizard){
-      console.log('runnin')
       if(toggleWizard){
         setGoalWizard(true);
       }
@@ -96,7 +94,6 @@ function GoalInput(props) {
     }
     function createWizardGoal(goal){
       setGoalWizard(false);
-      console.log(goal.title);
       setGoalText(goal.title);
       setType(goal.type);
       setLevel(goal.diff);
