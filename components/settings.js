@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { getLocalData, saveLocalData, deleteLocalData } from '../functions/localDataUtility';
 import { red, yellow, blue, lavender, dark } from '../functions/colors';
+import SwipeToDeleteComponent from './Swipe';
 
 function Settings(props) {
   const [userColor, setUserColor] = useState('#00bcd4');
@@ -219,7 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: dark.background,
   },
   logout: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 15,
     borderColor: 'red',
     height: 50,

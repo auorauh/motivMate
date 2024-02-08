@@ -49,6 +49,7 @@ export default function App( {route} ) {
   useEffect(() => {
     if(userObj._id != undefined && userObj._id != null){
       setTheme(userObj.theme);
+      //console.log(userObj.theme);
       getGoals(userObj._id);
       sortGoals(userGoals);
       setScore(userObj.dailyScore);

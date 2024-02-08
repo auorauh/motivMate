@@ -5,9 +5,6 @@ import GoalItem from './GoalItem';
 function GoalList(props, ref) {
 const [list, setList] = useState(listTypes);
 
-useEffect(() => {
-},[]);
-
 function setSelection(type){
     props.setListType(type);
     listTypes.forEach(element => {

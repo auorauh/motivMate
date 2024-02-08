@@ -1,21 +1,80 @@
-import { View, TextInput, Button, StyleSheet, Modal, Text, Pressable, Keyboard} from 'react-native';
-import { useState } from 'react'
+import { View, TextInput, Button, StyleSheet, Modal, Text, Pressable,TouchableWithoutFeedback, Keyboard, Animated, ActivityIndicator} from 'react-native';
+import { useState, useRef, useEffect } from 'react'
+import GoalWizard from './GoalWizard';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
+import BackgroundSVG from '../assets/BackgroundSVG';
+import DarkBackground from '../assets/DarkBackground';
+
 
 function GoalInput(props) {
     const [goalTitle, setGoalText] = useState('');
     const [goalType, setType] = useState('daily');
     const [level, setLevel] = useState('Easy');
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [goalWizard, setGoalWizard] = useState();
 
+
+    const slideAnim = useRef(new Animated.Value(80)).current;
+    const wideAnim = useRef(new Animated.Value(185)).current;
+    const topAnim = useRef(new Animated.Value(645)).current;
+    const leftAnim = useRef(new Animated.Value(215)).current;
+    const bottomAnim = useRef(new Animated.Value(0)).current;
+    const rightAnim = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+    }, []); 
+    //button is 645,215
     function goalInputHandler(enteredText) {
         setGoalText(enteredText);
       }
+      const toggleExpand = () => {
+        setIsExpanded(!isExpanded);
+        const topCenter = Animated.timing(topAnim, {
+          toValue: 375, 
+          duration: 600,
+          useNativeDriver: false, 
+        });
+        const leftCenter= Animated.timing(leftAnim, {
+          toValue: 115, 
+          duration: 600,
+          useNativeDriver: false, 
+        });
+        const firstAnimation = Animated.parallel([topCenter, leftCenter]);
+        const height = Animated.timing(slideAnim, {
+          toValue: 900, 
+          duration: 600,
+          useNativeDriver: false, 
+        });
+        const width= Animated.timing(wideAnim, {
+          toValue: 450, 
+          duration: 600,
+          useNativeDriver: false, 
+        });
+        const top = Animated.timing(topAnim, {
+          toValue: 0, 
+          duration: 600,
+          useNativeDriver: false, 
+        });
+        const left = Animated.timing(leftAnim, {
+          toValue: 0, 
+          duration: 600,
+          useNativeDriver: false, 
+        });
+        const secondAnimation = Animated.parallel([height,width,top,left])
+        const finalAnimation = Animated.sequence([firstAnimation,secondAnimation])
+        finalAnimation.start();
+      };
     function addGoalHandler() {
-        postGoal();
-        setGoalText('');
+        toggleExpand();
+        setTimeout(() => {
+          postGoal();
+          setGoalText('');
+          setIsExpanded(!isExpanded);
+         }, 1200);
     }
     function postGoal(){
+      console.log(goalTitle);
       let goal = {owner: props.userObj._id, title: goalTitle, complete: false, type: goalType, difficulty: level};
       axios.post(`${props.API_URL}/api/goals`, goal, {
         headers: {
@@ -25,10 +84,43 @@ function GoalInput(props) {
       .then(res => props.onAddGoal(res.data))
       .catch(err => console.log(err));
     }
+    function toggleGoalWizard(toggleWizard){
+      console.log('runnin')
+      if(toggleWizard){
+        setGoalWizard(true);
+      }
+      else {
+        setGoalWizard(false);
+        
+      }
+    }
+    function createWizardGoal(goal){
+      setGoalWizard(false);
+      console.log(goal.title);
+      setGoalText(goal.title);
+      setType(goal.type);
+      setLevel(goal.diff);
+      //wizardGoal();
+    }
+    async function wizardGoal(){
+      await postGoal();
+    }
 
     return (
       <Modal animationType="slide">
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          {goalWizard==undefined ?
+          <View style={[styles.wizardContainer, {backgroundColor:props.userObj.theme.background}]}>
+          {props.userObj.theme.background != '#0e1111' ?  <BackgroundSVG/> : <DarkBackground/>}
+            <Pressable style={[styles.wizardButton,{backgroundColor:props.userObj.theme.primary}]} onPress={() => toggleGoalWizard(true)}><Text style={styles.wizardText}>Goal Wizard </Text><Text><FontAwesome5 style={styles.wizardIcon} name={'magic'} /> </Text></Pressable>
+            <Pressable style={[styles.wizardButton,{backgroundColor:props.userObj.theme.primary}]} onPress={() => toggleGoalWizard(false)}><Text style={styles.wizardText}>Custom goal</Text><Text><FontAwesome5 style={styles.wizardIcon} name={'list-alt'} /> </Text></Pressable>
+            <Pressable style={styles.exit} onPress={props.cancel}><Text style={styles.exitText}>Cancel</Text></Pressable>
+          </View>
+          : 
             <View style={[styles.inputContainer, {backgroundColor:props.userObj.theme.background}]}>
+              {props.userObj.theme.background != '#0e1111' ?  <BackgroundSVG/> : <DarkBackground/>}
+                        {goalWizard==true ? <GoalWizard userObj={props.userObj} close={createWizardGoal}/> :
+  <>
               <Text style={styles.subText}>Give your goal a title</Text>
                 <TextInput style={styles.textInput} 
                   placeholder='Title your goal here'
@@ -76,13 +168,27 @@ function GoalInput(props) {
                     <View style={styles.button}>
                         <Button title='Cancel' onPress={props.cancel} color={'gray'}/>
                     </View>
-                    <View style={[styles.button, {backgroundColor: '#00bcd4'}]}>
+                  <View style={[styles.button, {backgroundColor: '#00bcd4'}, isExpanded ? {opacity: 0} : null]}>
                         <Pressable onPress={addGoalHandler} style={styles.addBtn}>
                         <FontAwesome5 style={[styles.newGoalText, {fontSize: 20}]} name={'paper-plane'} />
                         </Pressable>
                     </View>
+
                 </View>
+                {isExpanded ? 
+                <Animated.View style={[styles.animatedBtn, {backgroundColor: '#00bcd4'},{  height: slideAnim, width: wideAnim}, {top: topAnim, left:leftAnim, right: rightAnim, bottom: bottomAnim}  ] } >
+                    <Pressable onPress={addGoalHandler} style={styles.addBtn}>
+                    <FontAwesome5 style={[styles.newGoalText, {fontSize: 20, paddingBottom: 15}]} name={'paper-plane'} />
+                    <ActivityIndicator color="black" />
+                    </Pressable>
+                </Animated.View>
+                : null}
+                </>
+          }
             </View>
+            
+              }
+            </TouchableWithoutFeedback>
       </Modal>
       );
 };
@@ -96,9 +202,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 16,
         paddingTop: '40%',
-        backgroundColor: '#fff9ef',
         gap: 10,
-        ///backgroundColor: '#0e1111',
       },
       textInput: {
         borderBottomWidth: 1,
@@ -181,5 +285,63 @@ const styles = StyleSheet.create({
       },
       hard: {
         color: 'red',
+      },
+      animatedBtn: {
+        position: 'absolute', 
+        borderWidth:1,
+        borderColor: 'gray',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20,
+      },
+      addBtn2:{
+        height: '90%',
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      newGoalText: {
+        //transform: [{translateX: -7}],
+        fontSize: 20
+      },
+      creationScreen: {
+        //...StyleSheet.absoluteFill,
+      },
+      wizardContainer: {
+        flex: 1,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingTop: '50%',
+      },
+      wizardButton: {
+        borderWidth: 2,
+        borderRadius: 15,
+        width: '50%',
+        height: '20%',
+        justifyContent: 'center',
+        alignItems:'center',
+        
+      },
+      wizardText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        paddingBottom: 10
+      },
+      wizardIcon: {
+        fontSize: 30
+      },
+      exit: {
+        width: '100%',
+        borderWidth: 1,
+        height: '15%',
+        padding: 27,
+        backgroundColor: 'gray',
+        opacity: .5
+      },
+      exitText: {
+        color: 'red',
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center'
       }
 })

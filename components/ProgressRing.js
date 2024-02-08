@@ -22,7 +22,7 @@ export default function ProgressRing( props ) {
         cy={size / 2}
         r={radius}
         strokeWidth={strokeWidth}
-        stroke="#ccc" // color of the progress ring
+        stroke="#808080" // color of the progress ring
         fill="transparent"
       />
       <Circle

@@ -16,7 +16,7 @@ export default function AddGoalButton(props) {
 const styles = StyleSheet.create({
     newBtn: {
         backgroundColor: '#00bcd4',
-        borderRadius: '50%',
+        borderRadius: 50,
         height: 90,
         width: 90,
         justifyContent: 'center',
