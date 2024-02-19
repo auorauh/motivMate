@@ -20,8 +20,23 @@ function UserPage(props) {
               <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.smFontSize, {color:props.theme.secondary}]}>{props.userObj.email}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Email</Text></View>
               </View>
             </View>
-            <View style={styles.infoSection}>
-              {/* <Text>Your MotivRank is based on your score vs the MotivMate community.</Text> */}
+            <View style={styles.friendsSection}>
+              <Text style={[styles.motivBracket,{color:props.theme.secondary}]}>Motiv Ranking High Scores</Text>
+              <View style={[styles.friend, {borderColor:props.theme.secondary}]}>
+                <Text style={[{color:props.theme.secondary}]}>User Name</Text>
+                <Text style={[{color:props.theme.secondary}]}>Daily Score 100</Text>
+                <Text style={[{color:props.theme.secondary}]}>MotivRank 1</Text>
+              </View>
+              <View style={[styles.friend, {borderColor:props.theme.secondary}]}>
+                <Text style={[{color:props.theme.secondary}]}>User Name</Text>
+                <Text style={[{color:props.theme.secondary}]}>Daily Score 100</Text>
+                <Text style={[{color:props.theme.secondary}]}>MotivRank 2</Text>
+              </View>
+              <View style={[styles.friend, {borderColor:props.theme.secondary}]}>
+                <Text style={[{color:props.theme.secondary}]}>User Name</Text>
+                <Text style={[{color:props.theme.secondary}]}>Daily Score 100</Text>
+                <Text style={[{color:props.theme.secondary}]}>MotivRank 3</Text>
+              </View>
             </View>
             {/* <Button title='Edit' onPress={props.cancel} color={'red'}/> */}
           </View>
@@ -51,15 +66,35 @@ const styles = StyleSheet.create({
     marginRight: '10%',
   },
   userDataItem: {
-    height: 70,
+    height: 50,
     width: '100%',
     borderWidth: 1,
     borderRadius: 15,
     marginBottom: 5,
     justifyContent: 'center',
   },
-  infoSection: {
+  friendsSection: {
+    flex: 1,
+    width: '100%',
+    padding: '5%',
+    gap: '15%'
   },
+  friend: {
+    width: '100%',
+    height: '20%',
+    borderWidth: 1,
+    borderRadius: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '5%'
+  },
+  motivBracket: {
+    fontSize: 20,
+    paddingBottom: '3%',
+    textAlign: 'center'
+  },
+
   itemAlignCenter: {
     alignSelf: 'center',
   },

@@ -74,7 +74,7 @@ function GoalInput(props) {
          }, 1200);
     }
     function postGoal(){
-      let goal = {owner: props.userObj._id, title: goalTitle, complete: false, type: goalType, difficulty: level};
+      let goal = {owner: props.userObj._id, title: goalTitle, complete: false, type: goalType, difficulty: level, timesCompleted: 0};
       axios.post(`${props.API_URL}/api/goals`, goal, {
         headers: {
           'Content-Type': 'application/json'

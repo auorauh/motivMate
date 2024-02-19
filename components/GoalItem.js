@@ -60,7 +60,7 @@ export default GoalItem;
 
 const styles = StyleSheet.create({
     goalItem:{
-        height: 80,
+        height: 72,
         width: '100%',
         borderRadius: 15,
         flexDirection: 'row',
@@ -75,11 +75,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
       },
       goalText: {
-        fontSize: 25,
+        fontSize: 22,
       },
       moveIcon: {
         fontSize: 20,
-        marginLeft: 10,
+        //backgroundColor: 'red',
+        height: '100%',
+        width: '15%',
+        justifyContent: 'center',
+        alignItems: 'center'
       },
       goalType: {
         paddingLeft: 10,

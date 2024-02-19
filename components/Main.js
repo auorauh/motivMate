@@ -281,6 +281,7 @@ function completeGoal(_id) {
     return userScore;
   }
   function sortGoals(goals){
+    console.log(goals);
     setAllGoals(goals.filter(goal => goal));
     setDailyGoals(goals.filter(goal => goal.type === 'daily'));
     setWeeklyGoals(goals.filter(goal => goal.type === 'weekly'));
@@ -320,8 +321,8 @@ function completeGoal(_id) {
     {theme.background != '#0e1111' ? <StatusBar style='dark'/> : <StatusBar style='light'/>}
     <View style={[styles.container]}>
       <View style={styles.logoContainer}>
-      <FontAwesome5 style={[styles.userIcon, userObj == {} ? {color:'#00bcd4'} : {color:theme.primary}]} name={'user-circle'} />
-      <Text style={styles.scoreText}>Score: {score}</Text>
+        <FontAwesome5 style={[styles.userIcon, userObj == {} ? {color:'#00bcd4'} : {color:theme.primary}]} name={'user-circle'} />
+        <Text style={styles.scoreText}>Score: {score}</Text>
       </View>
       <View style={styles.goalSection}>
         {component}

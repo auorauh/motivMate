@@ -1,15 +1,20 @@
-import { StyleSheet, View, Text, FlatList } from 'react-native';
+import { StyleSheet, View, Text, FlatList, ScrollView } from 'react-native';
 import { useState, useEffect } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ProgressRing from './ProgressRing';
 import DottedBackground from '../assets/DottedBackground';
+import DarkCircles from '../assets/DarkCircles';
+import LightCircles from '../assets/LightCircles';
 
 function AnalyticsPage(props) {
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
   const [maxDataValue, setMaxDataValue] = useState(Math.max(...props.userObj.lastTwoWeeks));
+  const [goals, setGoals] = useState('');
+  const [goalTitles, setTitles] = useState([]);
 
   useEffect(() => {
+    createReport();
     calcualteMaxGoal();
   }, []);
   function calcualteMaxGoal(){
@@ -30,25 +35,61 @@ function AnalyticsPage(props) {
       setPercent(percent);
   }
   }
+  function createReport(){
+    let dailyGoals = [];
+    for(let i =0; i< props.goals.length;i++){
+      if(props.goals[i].type == 'daily'){
+        dailyGoals.push({title: props.goals[i].title, timesCompleted: props.goals[i].timesCompleted});
+      }
+    }
+    setTitles(dailyGoals);
+  }
+
 
       return (
+        <ScrollView>
       <View style={[styles.analyticsPage]}>
         
-        <View style={styles.userData}>
-          <View style={[styles.ringContainer, styles.progressStyle]}>
+        <View style={[styles.ringContainer , {borderColor:props.userObj.theme.secondary}]}>
             <Text style={[styles.dailyHeader, {color:props.theme.secondary}]} >You completed {percent}% of your daily goals.</Text>
             <View style={styles.progressRing}>
                 {progress == 1 && <FontAwesome5 style={styles.nice} name={'check-circle'}/>}
                 <ProgressRing progress={percent} theme={props.userObj.theme}/>
             </View>
+            {props.theme.secondary == 'black' ? <LightCircles/> : <DarkCircles/>}
           </View>
+
+        <View style={[styles.monthReview, {borderColor:props.userObj.theme.secondary}]}>
+          
+            <Text style={[styles.headerText , {color:props.theme.secondary}]}>Month in Review</Text><Text style={[{color:props.theme.secondary}]}>(Daily Goals)</Text>
+            {goalTitles.length > 0 ? 
+            <>
+            <View style={styles.lineItemBox}>
+            <Text style={[styles.lineItemTitle , {color:props.theme.secondary}, {borderColor:props.userObj.theme.secondary}]}> Title</Text> 
+            <Text style={[styles.lineItemTitle, {color:props.theme.secondary}, {borderColor:props.userObj.theme.secondary}]}> Completed</Text>
+            </View>
+
+            {goalTitles.map((item, index) => (
+              <>
+              <View style={styles.lineItem} key={index+' view'}>
+              <Text key={item.title} style={[styles.text, {color:props.theme.secondary},{borderColor:props.userObj.theme.secondary}]}>{item.title}</Text>
+              <Text key={index+item.title} style={[styles.text, {color:props.theme.secondary},{borderColor:props.userObj.theme.secondary}]}>{item.timesCompleted}</Text>
+              </View>
+            </>
+            ))}
+            </>
+            : <Text style={[{color:props.theme.secondary}]}>You have no Daily Goals</Text>}
+          </View>
+
+        <View style={styles.userData}>
+
           <View style={styles.container}>
             <Text style={[styles.graphHeader, {color:props.theme.secondary}]}>Daily Score last 14 days</Text>
             <View style={styles.graph}>
               {props.userObj.lastTwoWeeks.map((value, index) => (
               <View key={index} style={styles.barContainer}>
-                <View style={[styles.bar, maxDataValue===0? {height: 100 , backgroundColor: 'none'} :{ height: (value / maxDataValue) * 100 ,backgroundColor: props.userObj.theme.primary}, value===0 ? {borderBottomWidth: 1}: {borderWidth: 1}]} />
-                <Text style={[{color: props.userObj.theme.secondary}]}>{value}</Text>
+                <View key={index + 'k'} style={[styles.bar, maxDataValue===0? {height: 100 , backgroundColor: 'none'} :{ height: (value / maxDataValue) * 100 ,backgroundColor: props.userObj.theme.primary}, value===0 ? {borderBottomWidth: 1}: {borderWidth: 1}]} />
+                <Text key={index + 'l'} style={[{color: props.userObj.theme.secondary}]}>{value}</Text>
               </View>
               ))}
             </View>
@@ -60,6 +101,7 @@ function AnalyticsPage(props) {
           </View>       
         </View>
       </View>
+      </ScrollView>
       );
 };
 
@@ -68,34 +110,72 @@ export default AnalyticsPage;
 const styles = StyleSheet.create({
   analyticsPage: {
     alignItems: 'center',
+    //justifyContent: 'space-evenly',
+    gap: '15%',
     padding: 10,
-    height: '100%',
+    height: '100%'
   },
+  monthReview: {
+    borderWidth: 1,
+    width: '100%',
+    padding: '3%',
+    borderRadius: 15,
+    minHeight: '33%',
+    overflow: 'hidden'
+  },
+  lineItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+    
+  },
+  lineItemBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    
+  },
+  lineItemTitle: {
+    fontSize: 20,
+    borderWidth: 1,
+    width: '50%'
+  },
+  text: {
+    fontSize: 16,
+    borderWidth: 1,
+    width: '50%',
+    textAlign: 'center',
+    padding: 5
+  },
+  headerText: {
+    fontSize: 20
+  },
+
   userData: {
     width: '100%',
     justifyContent:  'space-between',
   },
   ringContainer: {
-    justifyContent: 'space-around',
-    flexDirection: 'column',
-    textAlign: 'center',
+    borderWidth: 1,
+    flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
+    //height: '25%',
+    maxHeight: '20%',
+    borderRadius: 15,
+    overflow: 'hidden'
   },
   dailyHeader: { 
-    fontSize: 20,
-    marginTop: '3%',
-  },
-  progressStyle: { 
     textAlign: 'center',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    width: '100%',
+    width: '60%',
+    fontSize: 20,
+    paddingLeft: '10%',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
   },
   progressRing: {
-    marginTop: '10%',
-    marginBottom: '10%',
     transform: [{ rotate: '-90deg' }],
+    alignItems: 'center',
   },
   nice: {
     position: 'absolute',

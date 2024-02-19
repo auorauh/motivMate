@@ -4,7 +4,7 @@ import { Svg, Circle } from 'react-native-svg';
 export default function ProgressRing( props ) {
   const size = 200; // size of the circle in pixels
   const strokeWidth = 12; // width of the circle's stroke in pixels
-  const radius = (size - strokeWidth) / 2; // radius of the circle
+  const radius = (size - strokeWidth-125) / 2; // radius of the circle
 
   // Calculate the circumference of the circle
   const circumference = radius * 2 * Math.PI;

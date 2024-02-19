@@ -114,8 +114,8 @@ function Settings(props) {
       }
     });
     setUserNotifications(true);
-}
-async function checkForLocalNoties(){
+  }
+  async function checkForLocalNoties(){
   let noties;
   try{
     noties = await getLocalData('NotiesScheduled');
@@ -125,13 +125,13 @@ async function checkForLocalNoties(){
   }
   catch (error){
   }
-}
-const navigation = useNavigation();
-function logout(){
+  }
+  const navigation = useNavigation();
+  function logout(){
   deleteLocalData('email');
   props.cancel();
   navigation.navigate('LoginPage');
-}
+  }
 
     return (
           <View style={[styles.settingPage]}>
@@ -159,7 +159,7 @@ function logout(){
               <View style={styles.settingSection}></View>
               <View style={styles.settingSection}></View>
               <View style={styles.logout}>
-                <Button color="red" title="Log Out" onPress={logout}></Button>
+              <Button color="red" title="Log Out" onPress={logout}></Button>
               </View>
             </View>
           </View>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 5,
     left: 10,
-    fontSize: 15,
+    fontSize: 20,
   },
   colorTray: {
     height: '25%',

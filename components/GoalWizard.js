@@ -8,14 +8,12 @@ import {intro, step1,step2,step3,step4,step5,Finance,Health,Education,Work,Socia
 function GoalWizard(props) {
     const [stage, setStage] = useState(0);
     const [category, setCategory] = useState();
-    const [subCategory, setSubCategory] = useState();
+    const [subCategory, setSubCategory] = useState('');
     const [header, setHeader] = useState(intro.header);
     const [subHeader, setSubHeader] = useState(intro.subHeader);
     const [text, setText] = useState(intro.text);
     const [content, setContent] = useState([]);
     const [disableNext, setDisabled] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [selectedSubcategory, setSelectedSubcategory] = useState('');
     const [selectedButton, setSelectedButton] = useState(-1);
     const [goalHelperText, setGoalHelperText] = useState('');
 
@@ -41,7 +39,6 @@ function GoalWizard(props) {
           setHeader(step2.header);
           setSubHeader(step2.subHeader);
           subCategoryContent(category);
-          //setContent(Finance.content);
           setSelectedButton(-1);
           break;
         case 3:
@@ -60,7 +57,7 @@ function GoalWizard(props) {
           break;
         case 6: 
           setText('Create Goal');
-          setSubHeader('Create your Goal!');
+          setSubHeader('If your title isn\'t right you can edit it in the next step');
           setDisabled(false);
           break;
         case 7:
@@ -98,7 +95,6 @@ function GoalWizard(props) {
     }
 
     function buttonSelect(text, index){
-      setSelectedCategory(category);
       setSelectedButton(index);
       switch (stage) {
         case 1:
@@ -106,7 +102,7 @@ function GoalWizard(props) {
           break;
         case 2:
           setGoalHelperText(text);
-          setSelectedSubcategory(text);
+          setSubCategory(text);
           break;
         case 4:
           setDifficulty(text);
@@ -137,13 +133,13 @@ function GoalWizard(props) {
 
     return (
       <View style={[styles.inputContainer]}>
-        <Text style={styles.headerText}>{header}</Text>
-        <Text style={styles.headerSubText}>{subHeader} {stage == 3 ? goalHelperText + ' Target?' : null}</Text>
+        <Text style={[styles.headerText , {color:props.userObj.theme.secondary}]}>{header}</Text>
+        <Text style={[styles.headerSubText, {color:props.userObj.theme.secondary}]}>{subHeader} {stage == 3 ? goalHelperText + ' Target?' : null}</Text>
         {stage > 2 ? <View style={[styles.goalItem, {backgroundColor: props.userObj.theme.primary}]}>
           <View style={styles.moveIcon}>
             <FontAwesome5 name={'grip-lines'} />
           </View>
-          <Text style={[styles.goalTitle,styles.font]}>{selectedSubcategory} {goalTitle}</Text>
+          <Text style={[styles.goalTitle,styles.font]}>{subCategory} {goalTitle}</Text>
           <View style={[styles.diffColor, goalDifficulty == 'Easy' ? styles.easy: null, goalDifficulty == 'Medium' ? styles.medium: null, goalDifficulty == 'Hard' ? styles.hard: null]}></View>
           
         </View> : null}
@@ -156,12 +152,13 @@ function GoalWizard(props) {
                             key={index}
                             style={({ pressed }) => [
                               styles.category,
+                              {borderColor:props.userObj.theme.secondary},
                               selectedButton === index && { borderColor: props.userObj.theme.primary, borderWidth: 2 }, // Check if this button is selected
                               pressed && { borderColor: 'lightgray' }, // Change border color when pressed
                             ]}
                             onPress={() => buttonSelect(text, index)}
                           >
-                    <Text style={styles.font}>
+                    <Text style={[styles.font, {color:props.userObj.theme.secondary}]}>
                       {text}
                     </Text>
                     </Pressable>
@@ -169,27 +166,15 @@ function GoalWizard(props) {
                     </> : null}
                     {stage == 3 ? 
                     <>
-                    <Text style={styles.goalTarget}>Goal Target</Text>
+                    <Text style={[styles.goalTarget, {color:props.userObj.theme.secondary}]}>Goal Target</Text>
                     <TextInput
-                    style={styles.formInput}
+                    style={[styles.formInput, {borderColor:props.userObj.theme.secondary}, {color:props.userObj.theme.secondary}]}
                     value={goalTitle}
                     onChangeText={goalTitleHandler}
                     required/> 
                     </>
                     : null}
                   </View>
-                  {/* {stage == 4 ? 
-                  <>
-                  <View style={styles.difficultyContainer}>
-                  <Pressable style={({pressed}) => [styles.difficulty]} onPress={() => difficulty('Easy')}><Text>Easy</Text>
-                  </Pressable>
-                  <Pressable style={styles.difficulty} onPress={() => difficulty('Medium')}><Text>Medium</Text>
-                  </Pressable>
-                  <Pressable style={styles.difficulty} onPress={() => difficulty('Hard')}><Text>Hard</Text>
-                  </Pressable>
-                  </View>
-                  </> 
-                  : null } */}
         </View>
                 {text != null ? 
                 <Pressable style={({ pressed }) => 
@@ -205,7 +190,6 @@ export default GoalWizard;
 
 const styles = StyleSheet.create({
     inputContainer: {
-        //backgroundColor: 'red',
         height: '100%',
         width: '100%',
         justifyContent: 'space-evenly'
@@ -221,7 +205,6 @@ const styles = StyleSheet.create({
         marginBottom: 20
       },
       categoryContainer:{
-        //width: '95%',
         flexDirection: 'row',
         justifyContent: 'center',
         flexWrap: 'wrap'
@@ -234,9 +217,6 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         alignItems: 'center',
         fontSize: 20
-      },
-      subCategoryContainer:{
-
       },
       buttonContainer: {
         backgroundColor: 'lightgray',
