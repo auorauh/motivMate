@@ -53,7 +53,7 @@ function GoalWizard(props) {
         case 5:
           setSelectedButton(-1);
           setSubHeader(step5.subHeader);
-          setContent(['Daily', 'Weekly', 'Monthly', 'To Do']);
+          setContent(['Daily', 'To Do']);
           break;
         case 6: 
           setText('Create Goal');
@@ -83,7 +83,7 @@ function GoalWizard(props) {
         case 'Work':
           setContent(Work.content);
           break;
-        case 'Personal':
+        case 'Personal':[styles.wizardButton,{backgroundColor:props.userObj.theme.primary}]
           setContent(Personal.content);
           break;
         case 'Social':
@@ -111,12 +111,7 @@ function GoalWizard(props) {
           if(text == 'Daily'){
             setType('daily');
           }
-          else if (text == 'Weekly'){
-            setType('weekly');
-          }
-          else if (text == 'Monthly'){
-            setType('monthly')
-          } else {
+          else {
             setType('ToDo')
           }
           break;
@@ -202,7 +197,9 @@ const styles = StyleSheet.create({
       headerSubText: {
         textAlign: 'center',
         fontSize: 20,
-        marginBottom: 20
+        marginBottom: 20,
+        paddingLeft: '7%',
+        paddingRight: '7%',
       },
       categoryContainer:{
         flexDirection: 'row',

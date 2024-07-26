@@ -4,7 +4,7 @@ export const red = {
     background: '#fff9ef'
   };
 export  const yellow = {
-    primary: '#FFF9C4',
+    primary: '#F3E5A5',
     secondary: 'black',
     background: '#fff9ef'
   };

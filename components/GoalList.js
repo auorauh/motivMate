@@ -56,11 +56,10 @@ const styles = StyleSheet.create({
     listType: { 
         width: '100%',
         alignItems: 'center',
-        flexDirection: 'row',
     },
     listTypeItem: {
         fontSize: 25,
-        width: 80,
+        width: 100,
         height: 30,
         justifyContent: 'center',
     },
@@ -95,21 +94,15 @@ const listTypes = [
         selected: false
     },
     {
-        listType: 'Weekly',
-        id: 'weekly',
-        style: styles.listTypeItem,
-        selected: false
-    },
-    {
-        listType: 'Monthly',
-        id: 'monthly',
-        style: styles.listTypeItem,
-        selected: false
-    },
-    {
         listType: 'To Do',
         id: 'ToDo',
         style: styles.listTypeItem,
         selected: false
-    }
+    },    
+    {
+        listType: 'Group',
+        id: 'group',
+        style: styles.listTypeItem,
+        selected: false
+    },
 ];

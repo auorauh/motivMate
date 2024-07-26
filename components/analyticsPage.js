@@ -53,53 +53,49 @@ function AnalyticsPage(props) {
         <View style={[styles.ringContainer , {borderColor:props.userObj.theme.secondary}]}>
             <Text style={[styles.dailyHeader, {color:props.theme.secondary}]} >You completed {percent}% of your daily goals.</Text>
             <View style={styles.progressRing}>
-                {progress == 1 && <FontAwesome5 style={styles.nice} name={'check-circle'}/>}
                 <ProgressRing progress={percent} theme={props.userObj.theme}/>
             </View>
             {props.theme.secondary == 'black' ? <LightCircles/> : <DarkCircles/>}
           </View>
+          <View style={styles.userData}>
 
-        <View style={[styles.monthReview, {borderColor:props.userObj.theme.secondary}]}>
-          
-            <Text style={[styles.headerText , {color:props.theme.secondary}]}>Month in Review</Text><Text style={[{color:props.theme.secondary}]}>(Daily Goals)</Text>
-            {goalTitles.length > 0 ? 
-            <>
-            <View style={styles.lineItemBox}>
-            <Text style={[styles.lineItemTitle , {color:props.theme.secondary}, {borderColor:props.userObj.theme.secondary}]}> Title</Text> 
-            <Text style={[styles.lineItemTitle, {color:props.theme.secondary}, {borderColor:props.userObj.theme.secondary}]}> Completed</Text>
-            </View>
-
-            {goalTitles.map((item, index) => (
-              <>
-              <View style={styles.lineItem} key={index+' view'}>
-              <Text key={item.title} style={[styles.text, {color:props.theme.secondary},{borderColor:props.userObj.theme.secondary}]}>{item.title}</Text>
-              <Text key={index+item.title} style={[styles.text, {color:props.theme.secondary},{borderColor:props.userObj.theme.secondary}]}>{item.timesCompleted}</Text>
-              </View>
-            </>
-            ))}
-            </>
-            : <Text style={[{color:props.theme.secondary}]}>You have no Daily Goals</Text>}
-          </View>
-
-        <View style={styles.userData}>
-
-          <View style={styles.container}>
-            <Text style={[styles.graphHeader, {color:props.theme.secondary}]}>Daily Score last 14 days</Text>
-            <View style={styles.graph}>
-              {props.userObj.lastTwoWeeks.map((value, index) => (
-              <View key={index} style={styles.barContainer}>
-                <View key={index + 'k'} style={[styles.bar, maxDataValue===0? {height: 100 , backgroundColor: 'none'} :{ height: (value / maxDataValue) * 100 ,backgroundColor: props.userObj.theme.primary}, value===0 ? {borderBottomWidth: 1}: {borderWidth: 1}]} />
-                <Text key={index + 'l'} style={[{color: props.userObj.theme.secondary}]}>{value}</Text>
-              </View>
-              ))}
-            </View>
-            <View style={styles.barLabels}>
-              <Text style={{color:props.theme.secondary}}>^14 Days Ago</Text>
-              <Text style={{color:props.theme.secondary}}>Today^</Text>
-            </View>
-            <DottedBackground/>
-          </View>       
+<View style={styles.container}>
+  <Text style={[styles.graphHeader, {color:props.theme.secondary}]}>Daily Score last 14 days</Text>
+  <View style={styles.graph}>
+    {props.userObj.lastTwoWeeks.map((value, index) => (
+    <View key={index} style={styles.barContainer}>
+      <View style={[styles.bar, maxDataValue===0? {height: 100 , backgroundColor: 'none'} :{ height: (value / maxDataValue) * 100 ,backgroundColor: props.userObj.theme.primary}, value===0 ? {borderBottomWidth: 1}: {borderWidth: 1}]} />
+      <Text style={[{color: props.userObj.theme.secondary}]}>{value}</Text>
+    </View>
+    ))}
+  </View>
+  <View style={styles.barLabels}>
+    <Text style={{color:props.theme.secondary}}>^14 Days Ago</Text>
+    <Text style={{color:props.theme.secondary}}>Yesterday^</Text>
+  </View>
+  <DottedBackground/>
+</View>       
+</View>
+  <View style={[styles.monthReview, {borderColor: props.userObj.theme.secondary}]}>
+    <Text style={[styles.headerText, {color: props.theme.secondary}]}>Month in Review</Text>
+    <Text style={[{color: props.theme.secondary}]}> (Daily Goals)</Text>
+    {goalTitles.length > 0 ? (
+      <>
+        <View style={styles.lineItemBox}>
+          <View style={[styles.lineItemTitle, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><Text style={styles.reportText}> Title</Text></View> 
+          <View style={[styles.lineItemTitle, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><Text style={styles.reportText}> Completed</Text></View>
         </View>
+        {goalTitles.map((item, index) => (
+          <View style={styles.lineItem} key={`goal_${index}`}>
+            <View style={[styles.reportLine, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><Text style={styles.reportText}>{item.title}</Text></View>
+            <View style={[styles.reportLine, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><Text style={styles.reportText}>{item.timesCompleted}</Text></View>
+          </View>
+        ))}
+      </>
+    ) : (
+      <Text style={[{color: props.theme.secondary}]}>You have no Daily Goals</Text>
+    )}
+  </View>
       </View>
       </ScrollView>
       );
@@ -113,7 +109,6 @@ const styles = StyleSheet.create({
     //justifyContent: 'space-evenly',
     gap: '15%',
     padding: 10,
-    height: '100%'
   },
   monthReview: {
     borderWidth: 1,
@@ -121,7 +116,7 @@ const styles = StyleSheet.create({
     padding: '3%',
     borderRadius: 15,
     minHeight: '33%',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   lineItem: {
     flexDirection: 'row',
@@ -136,20 +131,21 @@ const styles = StyleSheet.create({
   },
   lineItemTitle: {
     fontSize: 20,
-    borderWidth: 1,
+    borderBottomWidth: 1,
     width: '50%'
   },
-  text: {
-    fontSize: 16,
-    borderWidth: 1,
+  reportLine: {
+    borderBottomWidth: 1,
     width: '50%',
-    textAlign: 'center',
     padding: 5
+  },
+  reportText: {
+    fontSize: 16,
+    textAlign: 'center',
   },
   headerText: {
     fontSize: 20
   },
-
   userData: {
     width: '100%',
     justifyContent:  'space-between',
@@ -159,8 +155,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    //height: '25%',
-    maxHeight: '20%',
+    maxHeight: '10%',
     borderRadius: 15,
     overflow: 'hidden'
   },
@@ -171,29 +166,16 @@ const styles = StyleSheet.create({
     paddingLeft: '10%',
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
+    textShadowRadius: 12
   },
   progressRing: {
     transform: [{ rotate: '-90deg' }],
     alignItems: 'center',
   },
-  nice: {
-    position: 'absolute',
-    top: 0,
-    left: '-40%',
-    right: 0,
-    bottom: 0,
-    textAlign: 'center',
-    zIndex: 100,
-    color: '#0CCA4A',
-    fontSize: 40,
-    transform: [{ rotate: '90deg' }]
-  },
   container: {
     textAlign: 'center',
     borderRadius: 15,
     backgroundColor: '#D3D3D3',
-    //height: '35%',
     justifyContent: 'space-evenly',
     overflow: 'hidden'
 

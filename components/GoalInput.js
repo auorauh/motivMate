@@ -52,12 +52,12 @@ function GoalInput(props) {
           useNativeDriver: false, 
         });
         const top = Animated.timing(topAnim, {
-          toValue: 0, 
+          toValue: -50, 
           duration: 600,
           useNativeDriver: false, 
         });
         const left = Animated.timing(leftAnim, {
-          toValue: 0, 
+          toValue: -50, 
           duration: 600,
           useNativeDriver: false, 
         });
@@ -111,44 +111,39 @@ function GoalInput(props) {
           {props.userObj.theme.background != '#0e1111' ?  <BackgroundSVG/> : <DarkBackground/>}
             <Pressable style={[styles.wizardButton,{backgroundColor:props.userObj.theme.primary}]} onPress={() => toggleGoalWizard(true)}><Text style={styles.wizardText}>Goal Wizard </Text><Text><FontAwesome5 style={styles.wizardIcon} name={'magic'} /> </Text></Pressable>
             <Pressable style={[styles.wizardButton,{backgroundColor:props.userObj.theme.primary}]} onPress={() => toggleGoalWizard(false)}><Text style={styles.wizardText}>Custom goal</Text><Text><FontAwesome5 style={styles.wizardIcon} name={'list-alt'} /> </Text></Pressable>
-            <Pressable style={styles.exit} onPress={props.cancel}><Text style={styles.exitText}>Cancel</Text></Pressable>
+            <Pressable style={[styles.wizardButton,{backgroundColor:props.userObj.theme.primary}]} onPress={props.cancel}><Text style={styles.exitText}>Cancel</Text></Pressable>
           </View>
           : 
             <View style={[styles.inputContainer, {backgroundColor:props.userObj.theme.background}]}>
               {props.userObj.theme.background != '#0e1111' ?  <BackgroundSVG/> : <DarkBackground/>}
                         {goalWizard==true ? <GoalWizard userObj={props.userObj} close={createWizardGoal}/> :
-  <>
-              <Text style={styles.subText}>Give your goal a title</Text>
+  <View style={styles.goalContainer}>
+            <View style={styles.goalSection}>
+              <Text style={styles.subText}>Goal Title</Text>
                 <TextInput style={styles.textInput} 
-                  placeholder='Title your goal here'
+                  placeholder='Your goal title'
                   placeholderTextColor={'gray'}
                   onChangeText={goalInputHandler}
                   value={goalTitle} 
                   selectionColor={'#d4af37'}
                   required
                 />
-                <Text style={styles.subText}>What Type of Goal?</Text>
+            </View>
+            <View style={styles.goalSection}>
+            <Text style={styles.subText}>Goal Type?</Text>
                 <View style={styles.types}>
                   <Pressable style={[styles.typeChoice, goalType == 'daily' ? styles.typeHighlight : styles.typeChoice]} onPress={() => {setType('daily'), Keyboard.dismiss()}}>
                     <FontAwesome5 style={[styles.typeText, goalType == 'daily' ? styles.dailySelected : styles.typeText]} name={'history'} /> 
                     <Text style={[styles.typeText, goalType == 'daily' ? styles.dailySelected : styles.typeText]}>Daily</Text>
-                  </Pressable>
-                  <Pressable style={[styles.typeChoice, goalType == 'weekly' ? styles.typeHighlight : styles.typeChoice]} onPress={() => {setType('weekly'), Keyboard.dismiss()}}>
-                    <FontAwesome5 style={[styles.typeText, goalType == 'weekly' ? styles.dailySelected : styles.typeText]} name={'bullseye'} /> 
-                    <Text style={[styles.typeText, goalType == 'weekly' ? styles.dailySelected : styles.typeText]}>Weekly</Text>
-                  </Pressable>
-                </View>
-                <View style={styles.types}>
-                  <Pressable style={[styles.typeChoice, goalType == 'monthly' ? styles.typeHighlight : styles.typeChoice]} onPress={() => {setType('monthly'), Keyboard.dismiss()}}>
-                    <FontAwesome5 style={[styles.typeText, goalType == 'monthly' ? styles.dailySelected : styles.typeText]} name={'calendar-alt'} /> 
-                    <Text style={[styles.typeText, goalType == 'monthly' ? styles.dailySelected : styles.typeText]}>Monthly</Text>
                   </Pressable>
                   <Pressable style={[styles.typeChoice, goalType == 'ToDo' ? styles.typeHighlight : styles.typeChoice]} onPress={() => {setType('ToDo'), Keyboard.dismiss()}}>
                     <FontAwesome5 style={[styles.typeText, goalType == 'ToDo' ? styles.dailySelected : styles.typeText]} name={'list-alt'} /> 
                     <Text style={[styles.typeText, goalType == 'ToDo' ? styles.dailySelected : styles.typeText]}>To Do</Text>
                   </Pressable>
                 </View>
-                <Text style={styles.subText}>Goal Difficulty?</Text>
+            </View>
+            <View style={styles.goalSection}>
+            <Text style={styles.subText}>Goal Difficulty?</Text>
                 <View style={styles.types}>
                   <Pressable style={[styles.difficulty, level == 'Easy' ? styles.typeHighlight : styles.difficulty]} onPress={() => {setLevel('Easy'), Keyboard.dismiss()}}>
                     <Text style={[styles.typeText, level == 'Easy' ? styles.easy : styles.typeText]}>Easy</Text>
@@ -160,7 +155,8 @@ function GoalInput(props) {
                     <Text style={[styles.typeText, level == 'Hard' ? styles.hard : styles.typeText]}>Hard</Text>
                   </Pressable>
                 </View>
-
+            </View>
+            <View style={styles.goalSection}>
                 <View style={styles.buttonContainer}>
                     <View style={styles.button}>
                         <Button title='Cancel' onPress={props.cancel} color={'gray'}/>
@@ -170,8 +166,8 @@ function GoalInput(props) {
                         <FontAwesome5 style={[styles.newGoalText, {fontSize: 20}]} name={'paper-plane'} />
                         </Pressable>
                     </View>
-
                 </View>
+            </View>
                 {isExpanded ? 
                 <Animated.View style={[styles.animatedBtn, {backgroundColor: '#00bcd4'},{  height: slideAnim, width: wideAnim}, {top: topAnim, left:leftAnim, right: rightAnim, bottom: bottomAnim}  ] } >
                     <Pressable onPress={addGoalHandler} style={styles.addBtn}>
@@ -180,7 +176,7 @@ function GoalInput(props) {
                     </Pressable>
                 </Animated.View>
                 : null}
-                </>
+                </View>
           }
             </View>
             
@@ -194,47 +190,53 @@ export default GoalInput;
 
 const styles = StyleSheet.create({
     inputContainer: {
-        flex: 1,
-        justifyContent: 'space-around',
-        alignItems: 'center',
         padding: 16,
-        paddingTop: '40%',
-        gap: 10,
+        flex: 1,
+      },
+      goalContainer: {
+        height: '95%',
+        marginTop: '10%',
+        justifyContent: 'space-evenly'
+      },
+      goalSection: {
+        marginTop: '15%',
+        alignItems: 'center',
       },
       textInput: {
-        borderBottomWidth: 1,
-        width: '100%',
+        borderBottomWidth: 2,
+        borderBottomColor: 'gray',
+        backgroundColor: '#DDD',
+        borderRadius: 15,
+        width: '94%',
         padding: 8,
-        color: 'gray',
-        //marginBottom: 40,
-        fontSize: 30
+        color: '#666',
+        fontSize: 30,
+
       },
       types: {
         flexDirection: 'row',
-        width: '100%',
-        justifyContent: 'space-around',
-        height: '10%',
         gap: 10,
+        height: 100,
+        justifyContent: 'space-evenly'
       },
       typeChoice: {
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: 'gray',
-        height: '100%',
         width: '45%',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 20,
+        marginBottom: 10
       },
       typeText: {
         color: 'gray',
         fontSize: 18,
-        fontWeight: 500,
       },
       subText: {
-        fontSize: 18,
-        fontWeight: 500,
+        fontSize: 27,
+        fontWeight: 900,
         color: 'gray',
-        alignSelf: 'flex-start',
+        marginBottom: 10
       },
       dailySelected: {
         //color: '#FFC107',
@@ -246,9 +248,8 @@ const styles = StyleSheet.create({
         borderWidth: 2,
       },
       difficulty: {
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: 'gray',
-        height: '100%',
         width: '30%',
         justifyContent: 'center',
         alignItems: 'center',
@@ -256,23 +257,23 @@ const styles = StyleSheet.create({
       },
       buttonContainer: {
         flexDirection: 'row',
-        marginTop: 16,
+        marginBottom: '25%'
       },
       button: {
         marginHorizontal: 8,
-        borderWidth:1,
+        borderWidth: 2,
         borderColor: 'gray',
-        width: '49%',
-        height: '33%',
+        width: '46%',
         borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
       },
       addBtn: {
-        height: '100%',
+        height: 100,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        
       },
       easy: {
         color: '#58cc02',
@@ -285,17 +286,11 @@ const styles = StyleSheet.create({
       },
       animatedBtn: {
         position: 'absolute', 
-        borderWidth:1,
+        borderWidth: 2,
         borderColor: 'gray',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 20,
-      },
-      addBtn2:{
-        height: '90%',
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
       },
       newGoalText: {
         //transform: [{translateX: -7}],
@@ -306,15 +301,16 @@ const styles = StyleSheet.create({
       },
       wizardContainer: {
         flex: 1,
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
         alignItems: 'center',
-        paddingTop: '50%',
+        paddingTop: '15%',
       },
       wizardButton: {
         borderWidth: 2,
+        borderColor: 'gray',
         borderRadius: 15,
         width: '50%',
-        height: '20%',
+        height: '15%',
         justifyContent: 'center',
         alignItems:'center',
         
@@ -336,7 +332,7 @@ const styles = StyleSheet.create({
         opacity: .5
       },
       exitText: {
-        color: 'red',
+        color: 'gray',
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center'

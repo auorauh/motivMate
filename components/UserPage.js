@@ -1,11 +1,10 @@
-import { StyleSheet, View, Button, Image, Text, Pressable, Modal} from 'react-native';
-import { useState } from 'react'
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { StyleSheet, View, Text} from 'react-native';
 
 function UserPage(props) {
 
     return (
           <View style={[styles.userPage]}>
+          <Text style={[styles.title, {color:props.theme.secondary}]}>{props.userObj.name}</Text>
             <View style={styles.userData}>
               <View style={styles.column}>
               <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.hiScore}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Daily Hi-Score</Text></View>
@@ -18,24 +17,6 @@ function UserPage(props) {
               <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.totalScore}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Total Score</Text></View>
               <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.name}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Name</Text></View>
               <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.smFontSize, {color:props.theme.secondary}]}>{props.userObj.email}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Email</Text></View>
-              </View>
-            </View>
-            <View style={styles.friendsSection}>
-              <Text style={[styles.motivBracket,{color:props.theme.secondary}]}>Motiv Ranking High Scores</Text>
-              <View style={[styles.friend, {borderColor:props.theme.secondary}]}>
-                <Text style={[{color:props.theme.secondary}]}>User Name</Text>
-                <Text style={[{color:props.theme.secondary}]}>Daily Score 100</Text>
-                <Text style={[{color:props.theme.secondary}]}>MotivRank 1</Text>
-              </View>
-              <View style={[styles.friend, {borderColor:props.theme.secondary}]}>
-                <Text style={[{color:props.theme.secondary}]}>User Name</Text>
-                <Text style={[{color:props.theme.secondary}]}>Daily Score 100</Text>
-                <Text style={[{color:props.theme.secondary}]}>MotivRank 2</Text>
-              </View>
-              <View style={[styles.friend, {borderColor:props.theme.secondary}]}>
-                <Text style={[{color:props.theme.secondary}]}>User Name</Text>
-                <Text style={[{color:props.theme.secondary}]}>Daily Score 100</Text>
-                <Text style={[{color:props.theme.secondary}]}>MotivRank 3</Text>
               </View>
             </View>
             {/* <Button title='Edit' onPress={props.cancel} color={'red'}/> */}
@@ -56,6 +37,10 @@ const styles = StyleSheet.create({
     color: '#00bcd4',
     alignSelf: 'center'
   },
+  title: {
+    fontSize: 30,
+    fontWeight: 500
+  },
   userData: {
     width: '90%',
     paddingTop: 40,
@@ -66,41 +51,14 @@ const styles = StyleSheet.create({
     marginRight: '10%',
   },
   userDataItem: {
-    height: 50,
+    height: 100,
     width: '100%',
     borderWidth: 1,
     borderRadius: 15,
     marginBottom: 5,
     justifyContent: 'center',
   },
-  friendsSection: {
-    flex: 1,
-    width: '100%',
-    padding: '5%',
-    gap: '15%'
-  },
-  friend: {
-    width: '100%',
-    height: '20%',
-    borderWidth: 1,
-    borderRadius: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '5%'
-  },
-  motivBracket: {
-    fontSize: 20,
-    paddingBottom: '3%',
-    textAlign: 'center'
-  },
 
-  itemAlignCenter: {
-    alignSelf: 'center',
-  },
-  itemAlignLeft: {
-    alignSelf: 'flex-start',
-  },
   medFontSize: {
     fontSize: 17,
     alignSelf: 'center',

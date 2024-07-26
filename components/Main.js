@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef} from 'react';
-import { StyleSheet, View, Image, Text,} from 'react-native';
+import { StyleSheet, View, Image, Text, AppState, Keyboard,} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { useNavigation } from '@react-navigation/native';
 import Nav from './Nav';
 import GoalList from './GoalList';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -9,7 +10,7 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import storage from "@react-native-async-storage/async-storage";
 import {API_URL} from '@env';
-import { blue } from '../functions/colors' 
+import { blue } from '../functions/colors'
 import BackgroundSVG from '../assets/BackgroundSVG';
 import DarkBackground from '../assets/DarkBackground';
 
@@ -32,11 +33,11 @@ export default function App( {route} ) {
   const [userGoals, setUserGoals] = useState([]);
   const [allGoals, setAllGoals] = useState([]);
   const [dailyGoals, setDailyGoals] = useState([]);
-  const [weeklyGoals, setWeeklyGoals] = useState([]);
-  const [monthlyGoals, setMonthlyGoals] = useState([]);
+  const [groupGoals, setGroupGoals] = useState([]);
   const [toDoGoals, setToDoGoals] = useState([]);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState();
   const [refreshing, setRefreshing] = useState(false);
+  const [lastOpenDate, setLastOpenDate] = useState(null);
   const [childKey, setChildKey] = useState(1);
   const childRef = useRef(null);
   const goalList = <GoalList API_URL={API_URL} ref={childRef} userObj={route.params} refresh={refresh} refreshing={refreshing} userGoals={userGoals} completeGoal={completeGoal} deleteGoal={deleteGoal} setListType={setListType}/>;
@@ -47,15 +48,29 @@ export default function App( {route} ) {
     setChildKey(newKey);
   };
   useEffect(() => {
+    const refreshOnOpen = (nextAppState) => {
+      if (nextAppState == 'active') {
+        resetUser();
+      } else {
+      }
+    };
+    const resetUser = () => {
+      setAllGoals([]);
+      setUserGoals([]);
+      setScore('-');
+      updateKey();
+      refresh();
+    };
+    // Event listeners for touch and key press events
+    AppState.addEventListener('change', refreshOnOpen);
+    
     if(userObj._id != undefined && userObj._id != null){
       setTheme(userObj.theme);
-      //console.log(userObj.theme);
       getGoals(userObj._id);
       sortGoals(userGoals);
       setScore(userObj.dailyScore);
     }
     const getPermission = async () => {
-      if (Constants.isDevice) {
           const { status: existingStatus } = await Notifications.getPermissionsAsync();
           let finalStatus = existingStatus;
           if (existingStatus !== 'granted') {
@@ -69,17 +84,14 @@ export default function App( {route} ) {
           }
           const token = (await Notifications.getExpoPushTokenAsync()).data;
           await storage.setItem('expopushtoken', token);
-      } else {
-        alert('Must use physical device for Push Notifications');
-      }
-        if (Platform.OS === 'android') {
-          Notifications.setNotificationChannelAsync('default', {
-            name: 'default',
-            importance: Notifications.AndroidImportance.MAX,
-            vibrationPattern: [0, 250, 250, 250],
-            lightColor: '#FF231F7C',
-          });
-        }
+        // if (Platform.OS === 'android') {
+        //   Notifications.setNotificationChannelAsync('default', {
+        //     name: 'default',
+        //     importance: Notifications.AndroidImportance.MAX,
+        //     vibrationPattern: [0, 250, 250, 250],
+        //     lightColor: '#FF231F7C',
+        //   });
+        // }
     }
     getPermission();
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
@@ -89,6 +101,10 @@ export default function App( {route} ) {
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(responseListener.current);
+      try{
+        AppState.removeEventListener('active', refreshOnOpen);
+      } catch {}
+      
     };
   }, []);
 function check(){
@@ -117,7 +133,7 @@ function refresh(){
   getGoals(userObj._id);
   sortGoals(userGoals);
   check();
-  //setRefreshing(false);
+  setRefreshing(false);
 }
 async function getUser(email){
     fetch(`${API_URL}/api/users/${email}`)
@@ -171,6 +187,9 @@ function addGoalHandler(goalObject) {
       case 'Hard':
         setScore(score + 100);
         break;
+      default:
+        break;
+
     }
   }
   setUserGoals((currentGoals) => [...currentGoals,newGoal]);
@@ -186,6 +205,8 @@ function completeGoal(_id) {
   const goal = userGoals.find((goal) => goal._id === _id);
   if (!goal) return;
 
+  userScore = userObj.dailyScore;
+
   const updateScore = (diff) => {
     const scores = {
       Easy: 10,
@@ -193,8 +214,8 @@ function completeGoal(_id) {
       Hard: 100,
     };
     if (score - diff >= 0) {
-      userObj.dailyScore = score - diff;
-      setScore(score - diff);
+      userObj.dailyScore = userScore - diff;
+      setScore(userScore - diff);
     } else {
       setScore(0);
     }
@@ -203,16 +224,16 @@ function completeGoal(_id) {
   if (!goal.complete) {
     switch (goal.difficulty) {
       case 'Easy':
-        userObj.dailyScore = score + 10;
-        setScore(score + 10);
+        userObj.dailyScore = userScore + 10;
+        setScore(userScore + 10);
         break;
       case 'Medium':
-        userObj.dailyScore = score + 25;
-        setScore(score + 25);
+        userObj.dailyScore = userScore + 25;
+        setScore(userScore + 25);
         break;
       case 'Hard':
-        userObj.dailyScore = score + 100;
-        setScore(score + 100);
+        userObj.dailyScore = userScore + 100;
+        setScore(userScore + 100);
         break;
     }
     goal.complete = true;
@@ -281,11 +302,10 @@ function completeGoal(_id) {
     return userScore;
   }
   function sortGoals(goals){
-    console.log(goals);
+    //console.log(goals);
     setAllGoals(goals.filter(goal => goal));
     setDailyGoals(goals.filter(goal => goal.type === 'daily'));
-    setWeeklyGoals(goals.filter(goal => goal.type === 'weekly'));
-    setMonthlyGoals(goals.filter(goal => goal.type === 'monthly'));
+    setGroupGoals(goals.filter(goal => goal.type === 'group'));
     setToDoGoals(goals.filter(goal => goal.type === 'ToDo'));
     setRefreshing(false);
   }
@@ -294,11 +314,8 @@ function completeGoal(_id) {
       case 'daily':
         setUserGoals(dailyGoals);
         break;
-      case 'weekly':
-        setUserGoals(weeklyGoals);
-        break;
-      case 'monthly':
-        setUserGoals(monthlyGoals);
+      case 'group':
+        setUserGoals(groupGoals);
         break;
       case 'ToDo':
         setUserGoals(toDoGoals);
@@ -313,7 +330,13 @@ function completeGoal(_id) {
   }
   function resetList() {
     childRef.current.resetGoalList();
-  }  
+  }
+  const navigation = useNavigation();
+  function logout(){
+  props.cancel();
+  navigation.navigate('LoginPage');
+  }
+
 
   return (
     <>
@@ -335,7 +358,7 @@ function completeGoal(_id) {
         setListType={setListType}
         refresh={refresh}
         key={childKey}
-        goals={userGoals} 
+        goals={allGoals}
         userObj={userObj} 
         setTheme={updateTheme} 
         theme={theme} 
