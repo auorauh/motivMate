@@ -1,15 +1,48 @@
-import { StyleSheet, View, Text, Pressable, Modal, Switch, Button} from 'react-native';
-import { useEffect, useState } from 'react'
+import { StyleSheet, View, Text, Pressable, Modal, Switch, Button, Animated, Vibration} from 'react-native';
+import { useEffect, useState, useRef } from 'react'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import * as Notifications from 'expo-notifications';
 import { getAllScheduledNotificationsAsync, cancelAllScheduledNotificationsAsync } from 'expo-notifications';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { getLocalData, saveLocalData, deleteLocalData } from '../functions/localDataUtility';
-import { red, yellow, blue, lavender, dark } from '../functions/colors';
+import { red, yellow, blue, lavender, dark, mint, peach, coral, sky, sage} from '../functions/colors';
 import SwipeToDeleteComponent from './Swipe';
 
 function Settings(props) {
+  const poppyPattern = [0, 50];
+  const startVibrate = () => {
+    Vibration.vibrate(poppyPattern, true);
+  };
+  const endVibrate = () => {
+    Vibration.cancel();
+  };
+  const fillAnim = useRef(new Animated.Value(0)).current;
+  const boxWidth = 250;
+
+  const startReset = () => {
+    Animated.timing(fillAnim, {
+      toValue: boxWidth,
+      duration: 2000, 
+      useNativeDriver: false, 
+    }).start(() => {
+      if(fillAnim => 149 ){
+        startVibrate();
+        resetScore();
+        endVibrate();
+      }
+    });
+  };
+  const cancelReset = () => {
+    endVibrate();
+    Animated.timing(fillAnim, {
+      toValue: 0,
+      duration: 500, 
+      useNativeDriver: false,
+    }).start();
+    
+  };
+
   const [userColor, setUserColor] = useState('#00bcd4');
   const [newTheme, setNewTheme] = useState(blue);
   const [userNotifications, setUserNotifications] = useState(false);
@@ -44,6 +77,26 @@ function Settings(props) {
         setNewTheme(dark);
         theme = dark;
         break;
+      case coral:
+        setNewTheme(coral);
+        theme = coral;
+        break;
+      case peach:
+        setNewTheme(peach);
+        theme = peach;
+        break;
+      case sage:
+        setNewTheme(sage);
+        theme = sage;
+        break;
+      case sky:
+        setNewTheme(sky);
+        theme = sky;
+        break;
+      case mint:
+        setNewTheme(mint);
+        theme = mint;
+        break
       default:
         break;
     }
@@ -137,38 +190,53 @@ function Settings(props) {
     user.dailyScore= 0;
     try {
       const response = await axios.put(`${props.API_URL}/api/users/${props.userObj.email}`, user);
-      props.cancel();
       return response.data;
     } catch (error) {
-      //console.error(error);
     }
   }
 
     return (
           <View style={[styles.settingPage]}>
             <View style={styles.header}>
-            {/* <Pressable onPress={saveAndExit}><FontAwesome5 style={styles.headerText} name={'times-circle'} /></Pressable> */}
             </View>
             <View style={styles.userData}>
+            <Text style={[styles.title, {color:newTheme.secondary}]}>Choose your color</Text>
               <View style={styles.colorTray}>
-                <Text style={[styles.title, {color:newTheme.secondary}]}>Choose your color</Text>
                 <Pressable style={[styles.red, styles.color]} onPress={() =>changeColor( red )}></Pressable>
                 <Pressable style={[styles.yellow, styles.color]} onPress={() =>changeColor( yellow )}></Pressable>
                 <Pressable style={[styles.blue, styles.color]} onPress={() =>changeColor( blue )}></Pressable>
                 <Pressable style={[styles.lavender, styles.color]} onPress={() =>changeColor( lavender )}></Pressable>
                 <Pressable style={[styles.dark, styles.color]} onPress={() =>changeColor( dark )}></Pressable>
+                <Pressable style={[styles.coral, styles.color]} onPress={() =>changeColor( coral )}></Pressable>
+                <Pressable style={[styles.peach, styles.color]} onPress={() =>changeColor( peach )}></Pressable>
+                <Pressable style={[styles.sage, styles.color]} onPress={() =>changeColor( sage )}></Pressable>
+                <Pressable style={[styles.sky, styles.color]} onPress={() =>changeColor( sky )}></Pressable>
+                <Pressable style={[styles.mint, styles.color]} onPress={() =>changeColor( mint )}></Pressable>
               </View>
               <View style={styles.settingSection}>
-                <Text style={[styles.title, {color:newTheme.secondary}]}>Notifications</Text>
-                <Switch
-                // trackColor={{false: '#767577', true: props.userObj.theme.primary}}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleNotifications}
-                value={userNotifications}
-                />
+                <View style={styles.toggleSection}>
+                  <View style={styles.notifications}>
+                  <Text style={[{fontSize: 16}, {color:newTheme.secondary}]}>Notifications</Text>
+                  <Switch
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleNotifications}
+                  value={userNotifications}
+                  />
+                  </View>
+                  </View>
               </View>
               <View style={styles.settingSection}>
-                <Pressable onPress={resetScore}><Text>Reset User Score</Text></Pressable>
+                <Pressable style={styles.reset}
+                onPressIn={startReset}
+                onPressOut={cancelReset}>
+                  <Text style={styles.resetText}>Reset Score (Hold)</Text>
+                      <Animated.View
+                      style={[
+                        styles.box,
+                        {width: fillAnim},
+                            ]}
+                        />
+                  </Pressable>
               </View>
               <View style={styles.settingSection}></View>
               <View style={styles.logout}>
@@ -196,26 +264,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    position: 'absolute',
-    top: 5,
-    left: 10,
+    // position: 'absolute',
+    // top: 5,
+    // left: 10,
     fontSize: 20,
   },
   colorTray: {
-    height: '25%',
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexWrap: 'wrap', 
+    justifyContent: 'space-between', 
+    width: '100%',
+    paddingTop: '3%'
   },
   settingSection: {
-    alignItems: 'flex-end',
     marginBottom: '4%',
+    alignItems: 'center'
   },
   color: {
     height: 55,
     width: 55,
     borderRadius: 15,
     borderWidth: 3,
+    aspectRatio: 1,
+    margin: '1%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '3%'
   },
   red: {
     backgroundColor: red.primary,
@@ -232,12 +306,72 @@ const styles = StyleSheet.create({
   dark: {
     backgroundColor: dark.background,
   },
+  mint: {
+    backgroundColor: mint.primary,
+  },
+  peach: {
+    backgroundColor: peach.primary,
+  },
+  sky: {
+    backgroundColor: sky.primary
+  },
+  coral :{
+    backgroundColor: coral.primary
+  },
+  sage: {
+    backgroundColor: sage.primary
+  },
+  // toggleSection: {
+  //   flexDirection: 'row',
+  //   height: 50,
+  //   //justifyContent: 'center'
+  // },
+  notifications: {
+    borderRadius: 15,
+    borderWidth: 2,
+    height: 55,
+    width: 250,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: '5%'
+  },
+  reset: {
+    borderRadius: 15,
+    borderWidth: 2,
+    width: 250,
+    height: 55,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden'
+  },
+  resetText: {
+    fontSize: 16
+  },
   logout: {
     borderWidth: 2,
     borderRadius: 15,
     borderColor: 'red',
-    height: 50,
-    width: 100,
-    justifyContent: 'center'
-  }
+    height: 55,
+    width: 250,
+    justifyContent: 'center',
+    alignSelf: 'center'
+  },
+  boxContainer: {
+    width: 150,
+    height: 100, 
+    overflow: 'hidden',
+    marginBottom: 20,
+    borderRadius: 15,
+    borderColor: 'black',
+    borderWidth: 1,
+    position: 'absolute'
+  },
+  box: {
+    borderRadius: 15,
+    height: '100%',
+    backgroundColor: 'lightblue',
+    overflow: 'hidden',
+    position: 'absolute'
+  },
 })

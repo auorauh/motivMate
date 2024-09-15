@@ -344,6 +344,9 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     fontSize: 50,
     color: '#00bcd4',
+    borderWidth:1,
+    borderColor: 'lightgray',
+    borderRadius: 25
   },
   scoreText: {
     color: 'grey',
