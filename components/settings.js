@@ -132,6 +132,17 @@ function Settings(props) {
   props.cancel();
   navigation.navigate('LoginPage');
   }
+  async function resetScore(){
+    let user = props.userObj;
+    user.dailyScore= 0;
+    try {
+      const response = await axios.put(`${props.API_URL}/api/users/${props.userObj.email}`, user);
+      props.cancel();
+      return response.data;
+    } catch (error) {
+      //console.error(error);
+    }
+  }
 
     return (
           <View style={[styles.settingPage]}>
@@ -156,7 +167,9 @@ function Settings(props) {
                 value={userNotifications}
                 />
               </View>
-              <View style={styles.settingSection}></View>
+              <View style={styles.settingSection}>
+                <Pressable onPress={resetScore}><Text>Reset User Score</Text></Pressable>
+              </View>
               <View style={styles.settingSection}></View>
               <View style={styles.logout}>
               <Button color="red" title="Log Out" onPress={logout}></Button>

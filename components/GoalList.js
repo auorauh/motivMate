@@ -1,6 +1,7 @@
-import { StyleSheet, View, Text, FlatList, Pressable } from 'react-native';
+import { StyleSheet, View, Text, FlatList, Pressable,TouchableWithoutFeedback } from 'react-native';
 import { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import GoalItem from './GoalItem';
+import { JumpingTransition } from 'react-native-reanimated';
 
 function GoalList(props, ref) {
 const [list, setList] = useState(listTypes);
@@ -32,7 +33,7 @@ useImperativeHandle(ref, () => ({
 return (
     <View>
         <View style={styles.listType}>
-            <FlatList showsVerticalScrollIndicator={false} horizontal={true} data={list} ItemSeparatorComponent={() => <View style={{}} />} renderItem={(item) => {
+            <FlatList showsVerticalScrollIndicator={false} horizontal={true}  data={list} renderItem={(item) => {
         return <Pressable style={[item.item.selected ? [styles.listTypeItem,styles.selected] : [styles.listTypeItem]]} onPress={setSelection.bind(this,item.item)}><Text style={styles.listTypeText}>{item.item.listType}</Text></Pressable>
         }}
         keyExtractor={(item) => {
@@ -40,7 +41,8 @@ return (
     }}/>
         </View>
     <FlatList style={styles.goalSection} onRefresh={props.refresh} refreshing={props.refreshing} numColumns={1} data={props.userGoals} ItemSeparatorComponent={() => <View style={{ height: 15 }} />} renderItem={(itemData) => {
-        return <GoalItem theme={props.userObj.theme} value={itemData.item} onDeleteItem={props.deleteGoal} _id={itemData.item._id} complete={props.completeGoal}/>;
+        //console.log(itemData);
+        return <GoalItem totalCount={props.userGoals.length} index={itemData.index} theme={props.userObj.theme} value={itemData.item} onDeleteItem={props.deleteGoal} _id={itemData.item._id} complete={props.completeGoal}/>;
         }}
         keyExtractor={(item) => {
             return item._id;
@@ -53,17 +55,17 @@ export default forwardRef(GoalList);
 
 const styles = StyleSheet.create({
     //list Type styles
-    listType: { 
+    listType: {
         width: '100%',
-        alignItems: 'center',
+        alignSelf: 'center'
     },
     listTypeItem: {
         fontSize: 25,
-        width: 100,
         height: 30,
-        justifyContent: 'center',
+        width: '110%',
     },
     listTypeText: {
+        width: '100%',
         fontSize: 20, 
         textAlign: 'center', 
         color: 'gray'
@@ -98,11 +100,5 @@ const listTypes = [
         id: 'ToDo',
         style: styles.listTypeItem,
         selected: false
-    },    
-    {
-        listType: 'Group',
-        id: 'group',
-        style: styles.listTypeItem,
-        selected: false
-    },
+    }
 ];

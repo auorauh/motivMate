@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     marginRight: '10%',
   },
   userDataItem: {
-    height: 100,
+    height: 72,
     width: '100%',
     borderWidth: 1,
     borderRadius: 15,

@@ -55,6 +55,7 @@ export default function App( {route} ) {
       }
     };
     const resetUser = () => {
+      setRefreshing(true)
       setAllGoals([]);
       setUserGoals([]);
       setScore('-');
@@ -107,32 +108,12 @@ export default function App( {route} ) {
       
     };
   }, []);
-function check(){
-  let tempScore =0;
-  for(let i=0;i<userGoals.length;i++){
-    if(userGoals[i].complete == true){
-      switch(userGoals[i].difficulty){
-        case 'Easy':
-          tempScore + 10;
-          break;
-        case 'Medium':
-          tempScore + 25;
-          break;
-        case 'Hard':
-          tempScore + 100;
-          break;
-      }
-    }
-  }
-  setScore(tempScore);
-}
 
 function refresh(){
   setRefreshing(true);
   getUser(userObj.email);
   getGoals(userObj._id);
   sortGoals(userGoals);
-  check();
   setRefreshing(false);
 }
 async function getUser(email){
@@ -166,7 +147,9 @@ async function getGoals(_id) {
 }
 const updateTheme = (theme) => {
   setTheme(theme);
-  //updateKey();
+  userObj.userGoals = userObj.userGoals;
+  //refresh();
+  updateKey();
 }
 function startAddGoal(){
   setGoalModal(true);
@@ -204,53 +187,25 @@ setComponent(component);
 function completeGoal(_id) {
   const goal = userGoals.find((goal) => goal._id === _id);
   if (!goal) return;
-
-  userScore = userObj.dailyScore;
-
-  const updateScore = (diff) => {
-    const scores = {
-      Easy: 10,
-      Medium: 25,
-      Hard: 100,
-    };
-    if (score - diff >= 0) {
-      userObj.dailyScore = userScore - diff;
-      setScore(userScore - diff);
-    } else {
-      setScore(0);
+  goal.complete = !goal.complete;
+  let tempScore =0;
+  for(let i=0;i<userGoals.length;i++){
+    if(userGoals[i].complete == true){
+      switch(userGoals[i].difficulty){
+        case 'Easy':
+          tempScore = tempScore + 10;
+          break;
+        case 'Medium':
+          tempScore = tempScore + 25;
+          break;
+        case 'Hard':
+          tempScore = tempScore + 100;
+          break;
+      }
     }
-  };
-
-  if (!goal.complete) {
-    switch (goal.difficulty) {
-      case 'Easy':
-        userObj.dailyScore = userScore + 10;
-        setScore(userScore + 10);
-        break;
-      case 'Medium':
-        userObj.dailyScore = userScore + 25;
-        setScore(userScore + 25);
-        break;
-      case 'Hard':
-        userObj.dailyScore = userScore + 100;
-        setScore(userScore + 100);
-        break;
-    }
-    goal.complete = true;
-  } else {
-    switch (goal.difficulty) {
-      case 'Easy':
-        updateScore(10);
-        break;
-      case 'Medium':
-        updateScore(25);
-        break;
-      case 'Hard':
-        updateScore(100);
-        break;
-    }
-    goal.complete = false;
   }
+  userObj.dailyScore = tempScore;
+  setScore(tempScore);
 
   try {
     axios.put(`${API_URL}/api/users/goals/${_id}`, goal);
@@ -302,12 +257,10 @@ function completeGoal(_id) {
     return userScore;
   }
   function sortGoals(goals){
-    //console.log(goals);
     setAllGoals(goals.filter(goal => goal));
     setDailyGoals(goals.filter(goal => goal.type === 'daily'));
     setGroupGoals(goals.filter(goal => goal.type === 'group'));
     setToDoGoals(goals.filter(goal => goal.type === 'ToDo'));
-    setRefreshing(false);
   }
   function setListType(type){
     switch(type.id) {

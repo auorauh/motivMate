@@ -82,8 +82,8 @@ function AnalyticsPage(props) {
     {goalTitles.length > 0 ? (
       <>
         <View style={styles.lineItemBox}>
-          <View style={[styles.lineItemTitle, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><Text style={styles.reportText}> Title</Text></View> 
-          <View style={[styles.lineItemTitle, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><Text style={styles.reportText}> Completed</Text></View>
+          <View style={[styles.lineItemTitle, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><Text style={[styles.headerText,{textAlign:'center'}]}> Title</Text></View> 
+          <View style={[styles.lineItemTitle, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><Text style={[styles.headerText,{textAlign:'center'}]}> Completed</Text></View>
         </View>
         {goalTitles.map((item, index) => (
           <View style={styles.lineItem} key={`goal_${index}`}>
@@ -130,12 +130,10 @@ const styles = StyleSheet.create({
     
   },
   lineItemTitle: {
-    fontSize: 20,
-    borderBottomWidth: 1,
     width: '50%'
   },
   reportLine: {
-    borderBottomWidth: 1,
+    borderTopWidth: 1,
     width: '50%',
     padding: 5
   },
@@ -144,7 +142,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   headerText: {
-    fontSize: 20
+    fontSize: 20,
+    fontWeight: 500
   },
   userData: {
     width: '100%',

@@ -21,7 +21,10 @@ function GoalItem(props){
 
     return (
     <Pressable onLongPress={props.onDeleteItem.bind(this, props._id)} style={({pressed}) => pressed && styles.pressedItem} onPress={props.complete.bind(this,props._id)}>
-        <View style={props.value.complete? [styles.goalItem,styles.completeGoal] : [styles.goalItem, {backgroundColor:props.theme.primary}]}>
+        <View style={[
+              props.value.complete? [styles.goalItem,styles.completeGoal] : [styles.goalItem, {backgroundColor:props.theme.primary}],
+              props.totalCount - 1 == props.index ? [styles.goalItem,{backgroundColor:props.theme.primary},{marginBottom: '7%'}] : {}
+          ]}>
             <View style={styles.moveIcon}>
               <FontAwesome5 name={'grip-lines'} />
             </View>
@@ -29,7 +32,7 @@ function GoalItem(props){
               <Text style={styles.goalText}>
                   {props.value.title}
               </Text>
-              <Text></Text> 
+              <Text>{props.item}</Text> 
             </View>
             <Text  style={styles.difficulty}>
             {props.value.difficulty == "Easy" ? '+ 10' : ''}
