@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getLocalData, saveLocalData, deleteLocalData } from '../functions/localDataUtility';
 import { red, yellow, blue, lavender, dark, mint, peach, coral, sky, sage} from '../functions/colors';
 import SwipeToDeleteComponent from './Swipe';
+import TextFont from './TextFont';
 
 function Settings(props) {
   const poppyPattern = [0, 50];
@@ -200,7 +201,7 @@ function Settings(props) {
             <View style={styles.header}>
             </View>
             <View style={styles.userData}>
-            <Text style={[styles.title, {color:newTheme.secondary}]}>Choose your color</Text>
+            <TextFont style={[styles.title, {color:newTheme.secondary}]}>Choose your color</TextFont>
               <View style={styles.colorTray}>
                 <Pressable style={[styles.red, styles.color]} onPress={() =>changeColor( red )}></Pressable>
                 <Pressable style={[styles.yellow, styles.color]} onPress={() =>changeColor( yellow )}></Pressable>
@@ -216,7 +217,7 @@ function Settings(props) {
               <View style={styles.settingSection}>
                 <View style={styles.toggleSection}>
                   <View style={styles.notifications}>
-                  <Text style={[{fontSize: 16}, {color:newTheme.secondary}]}>Notifications</Text>
+                  <TextFont style={[{fontSize: 16}, {color:newTheme.secondary}]}>Notifications</TextFont>
                   <Switch
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleNotifications}
@@ -229,7 +230,7 @@ function Settings(props) {
                 <Pressable style={styles.reset}
                 onPressIn={startReset}
                 onPressOut={cancelReset}>
-                  <Text style={styles.resetText}>Reset Score (Hold)</Text>
+                  <TextFont style={styles.resetText}>Reset Score (Hold)</TextFont>
                       <Animated.View
                       style={[
                         styles.box,

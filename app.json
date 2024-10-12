@@ -2,7 +2,7 @@
   "expo": {
     "name": "MotivMate",
     "slug": "MotivMate",
-    "version": "1.0.36",
+    "version": "1.0.37",
     "orientation": "portrait",
     "icon": "./assets/MotivMateLogo.png",
     "userInterfaceStyle": "light",
@@ -35,6 +35,9 @@
       "eas": {
         "projectId": "36b17dea-6c7b-4aa1-bb7c-47f213386bd1"
       }
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

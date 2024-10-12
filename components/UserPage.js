@@ -1,22 +1,23 @@
 import { StyleSheet, View, Text} from 'react-native';
+import TextFont from './TextFont';
 
 function UserPage(props) {
 
     return (
           <View style={[styles.userPage]}>
-          <Text style={[styles.title, {color:props.theme.secondary}]}>{props.userObj.name}</Text>
+          <TextFont style={[styles.title, {color:props.theme.secondary}]}>{props.userObj.name}</TextFont>
             <View style={styles.userData}>
               <View style={styles.column}>
-              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.hiScore}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Daily Hi-Score</Text></View>
-              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.goalsCompleted}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Goals Completed</Text></View>
-              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.perfectDays}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Perfect Days</Text></View>
-              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.perfectScore}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Perfect Score</Text></View>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><TextFont style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.hiScore}</TextFont><TextFont style={[styles.medFontTitle, {color:props.theme.secondary}]}>Daily Hi-Score</TextFont></View>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><TextFont style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.goalsCompleted}</TextFont><TextFont style={[styles.medFontTitle, {color:props.theme.secondary}]}>Goals Completed</TextFont></View>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><TextFont style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.perfectDays}</TextFont><TextFont style={[styles.medFontTitle, {color:props.theme.secondary}]}>Perfect Days</TextFont></View>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><TextFont style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.perfectScore}</TextFont><TextFont style={[styles.medFontTitle, {color:props.theme.secondary}]}>Perfect Score</TextFont></View>
               </View>
               <View style={styles.column}>
-              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.motivRank}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>MotivRank</Text></View>
-              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.totalScore}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Total Score</Text></View>
-              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.name}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Name</Text></View>
-              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><Text style={[styles.smFontSize, {color:props.theme.secondary}]}>{props.userObj.email}</Text><Text style={[styles.medFontTitle, {color:props.theme.secondary}]}>Email</Text></View>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><TextFont style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.motivRank}</TextFont><TextFont style={[styles.medFontTitle, {color:props.theme.secondary}]}>MotivRank</TextFont></View>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><TextFont style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.totalScore}</TextFont><TextFont style={[styles.medFontTitle, {color:props.theme.secondary}]}>Total Score</TextFont></View>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><TextFont style={[styles.medFontSize, {color:props.theme.secondary}]}>{props.userObj.name}</TextFont><TextFont style={[styles.medFontTitle, {color:props.theme.secondary}]}>Name</TextFont></View>
+              <View style={[styles.userDataItem, {borderColor:props.theme.secondary}]}><TextFont style={[styles.smFontSize, {color:props.theme.secondary}]}>{props.userObj.email}</TextFont><TextFont style={[styles.medFontTitle, {color:props.theme.secondary}]}>Email</TextFont></View>
               </View>
             </View>
             {/* <Button title='Edit' onPress={props.cancel} color={'red'}/> */}
@@ -39,7 +40,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: 500
+    fontWeight: 500,
+    paddingTop: '5%'
   },
   userData: {
     width: '90%',

@@ -1,4 +1,5 @@
 import { StyleSheet, View, Text, FlatList, ScrollView } from 'react-native';
+import TextFont from './TextFont';
 import { useState, useEffect } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ProgressRing from './ProgressRing';
@@ -51,7 +52,7 @@ function AnalyticsPage(props) {
       <View style={[styles.analyticsPage]}>
         
         <View style={[styles.ringContainer , {borderColor:props.userObj.theme.secondary}]}>
-            <Text style={[styles.dailyHeader, {color:props.theme.secondary}]} >You completed {percent}% of your daily goals.</Text>
+            <TextFont style={[styles.dailyHeader, {color:props.theme.secondary}]} >You completed {percent}% of your daily goals.</TextFont>
             <View style={styles.progressRing}>
                 <ProgressRing progress={percent} theme={props.userObj.theme}/>
             </View>
@@ -60,40 +61,40 @@ function AnalyticsPage(props) {
           <View style={styles.userData}>
 
 <View style={styles.container}>
-  <Text style={[styles.graphHeader, {color:props.theme.secondary}]}>Daily Score last 14 days</Text>
+  <TextFont style={[styles.graphHeader, {color:props.theme.secondary}]}>Daily Score last 14 days</TextFont>
   <View style={styles.graph}>
     {props.userObj.lastTwoWeeks.map((value, index) => (
     <View key={index} style={styles.barContainer}>
       <View style={[styles.bar, maxDataValue===0? {height: 100 , backgroundColor: 'none'} :{ height: (value / maxDataValue) * 100 ,backgroundColor: props.userObj.theme.primary}, value===0 ? {borderBottomWidth: 1}: {borderWidth: 1}]} />
-      <Text style={[{color: props.userObj.theme.secondary}]}>{value}</Text>
+      <TextFont style={[{color: props.userObj.theme.secondary}]}>{value}</TextFont>
     </View>
     ))}
   </View>
   <View style={styles.barLabels}>
-    <Text style={{color:props.theme.secondary}}>^14 Days Ago</Text>
-    <Text style={{color:props.theme.secondary}}>Yesterday^</Text>
+    <TextFont style={{color:props.theme.secondary}}>^14 Days Ago</TextFont>
+    <TextFont style={{color:props.theme.secondary}}>Yesterday^</TextFont>
   </View>
   <DottedBackground/>
 </View>       
 </View>
   <View style={[styles.monthReview, {borderColor: props.userObj.theme.secondary}]}>
-    <Text style={[styles.headerText, {color: props.theme.secondary}]}>Month in Review</Text>
-    <Text style={[{color: props.theme.secondary}]}> (Daily Goals)</Text>
+    <TextFont style={[styles.headerText, {color: props.theme.secondary}]}>Month in Review</TextFont>
+    <TextFont style={[{color: props.theme.secondary}]}> (Daily Goals)</TextFont>
     {goalTitles.length > 0 ? (
       <>
         <View style={styles.lineItemBox}>
-          <View style={[styles.lineItemTitle, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><Text style={[styles.headerText,{textAlign:'center'}]}> Title</Text></View> 
-          <View style={[styles.lineItemTitle, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><Text style={[styles.headerText,{textAlign:'center'}]}> Completed</Text></View>
+          <View style={[styles.lineItemTitle, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><TextFont style={[styles.headerText,{textAlign:'center'}]}> Title</TextFont></View> 
+          <View style={[styles.lineItemTitle, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><TextFont style={[styles.headerText,{textAlign:'center'}]}> Completed</TextFont></View>
         </View>
         {goalTitles.map((item, index) => (
           <View style={styles.lineItem} key={`goal_${index}`}>
-            <View style={[styles.reportLine, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><Text style={styles.reportText}>{item.title}</Text></View>
-            <View style={[styles.reportLine, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><Text style={styles.reportText}>{item.timesCompleted}</Text></View>
+            <View style={[styles.reportLine, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><TextFont style={styles.reportText}>{item.title}</TextFont></View>
+            <View style={[styles.reportLine, {color: props.theme.secondary}, {borderColor: props.userObj.theme.secondary}]}><TextFont style={styles.reportText}>{item.timesCompleted}</TextFont></View>
           </View>
         ))}
       </>
     ) : (
-      <Text style={[{color: props.theme.secondary}]}>You have no Daily Goals</Text>
+      <TextFont style={[{color: props.theme.secondary}]}>You have no Daily Goals</TextFont>
     )}
   </View>
       </View>

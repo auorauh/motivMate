@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import TextFont from './TextFont';
 
 function GoalItem(props){
   const [score, setScore] = useState('+ -');
@@ -22,23 +23,26 @@ function GoalItem(props){
     return (
     <Pressable onLongPress={props.onDeleteItem.bind(this, props._id)} style={({pressed}) => pressed && styles.pressedItem} onPress={props.complete.bind(this,props._id)}>
         <View style={[
-              props.value.complete? [styles.goalItem,styles.completeGoal] : [styles.goalItem, {backgroundColor:props.theme.primary}],
-              props.totalCount - 1 == props.index ? [styles.goalItem,{backgroundColor:props.theme.primary},{marginBottom: '7%'}] : {}
-          ]}>
+              (props.value.complete? [styles.goalItem,styles.completeGoal] : [styles.goalItem, {backgroundColor:props.theme.primary}]),
+              (props.totalCount - 1 == props.index ? [{marginBottom: '7%'}] : {})
+              ]}>
             <View style={styles.moveIcon}>
               <FontAwesome5 name={'grip-lines'} />
             </View>
             <View style={styles.goalTextContainer}>
-              <Text style={styles.goalText}>
+              <TextFont style={styles.goalText}>
                   {props.value.title}
-              </Text>
-              <Text>{props.item}</Text> 
+              </TextFont>
+              <TextFont>{props.item}</TextFont> 
             </View>
-            <Text  style={styles.difficulty}>
+            <View style={styles.streak}>
+              {props.value.streak > 0  ?<TextFont style={[{color: 'gray'}]}>Streak {props.value.streak} <FontAwesome5 name={'fire-alt'} /></TextFont>: <><TextFont> </TextFont></>}
+            </View>
+            <TextFont  style={styles.difficulty}>     
             {props.value.difficulty == "Easy" ? '+ 10' : ''}
             {props.value.difficulty == "Medium" ? '+ 25' : ''}
             {props.value.difficulty == "Hard" ? '+ 100' : ''}
-            </Text>
+            </TextFont>
             {props.value.difficulty == "Easy" ?
             <View style={[styles.diffColor,styles.easy]}>
             </View> 
@@ -58,7 +62,6 @@ function GoalItem(props){
 
 }
 
-
 export default GoalItem;
 
 const styles = StyleSheet.create({
@@ -67,35 +70,38 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 15,
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
         overflow: 'hidden',
+        justifyContent: 'space-between'
       },
       goalTextContainer: {
-        width: '70%',
+        //width: '50%',
+        flex: 1,
         height: '100%',
         alignItems: 'center',
         flexDirection: 'row',
+        alignSelf: 'flex-start'
       },
       goalText: {
         fontSize: 22,
       },
       moveIcon: {
         fontSize: 20,
-        //backgroundColor: 'red',
         height: '100%',
         width: '15%',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        alignSelf: 'flex-start',
+        flexDirection: 'row'
       },
-      goalType: {
-        paddingLeft: 10,
-        transform: [{translateY: -4}],
-      },
-      goalTypeIcon: { 
-        fontSize: 20,
+      streak: {
+        height: '100%',
+        justifyContent: 'center',
+        width: '20%'
       },
       difficulty: {
+        width: '10%',
+        textAlign: 'center'
       },
       diffColor:{
         height: '100%',

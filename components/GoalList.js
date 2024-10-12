@@ -2,6 +2,7 @@ import { StyleSheet, View, Text, FlatList, Pressable,TouchableWithoutFeedback } 
 import { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import GoalItem from './GoalItem';
 import { JumpingTransition } from 'react-native-reanimated';
+import TextFont from './TextFont';
 
 function GoalList(props, ref) {
 const [list, setList] = useState(listTypes);
@@ -22,7 +23,6 @@ function setSelection(type){
 }
 const [count, setCount] = useState(0);
 
-// Define reset to be called from main on new goal
 function resetGoalList() {
     setSelection(listTypes[0]);
 }
@@ -34,14 +34,13 @@ return (
     <View>
         <View style={styles.listType}>
             <FlatList showsVerticalScrollIndicator={false} horizontal={true}  data={list} renderItem={(item) => {
-        return <Pressable style={[item.item.selected ? [styles.listTypeItem,styles.selected] : [styles.listTypeItem]]} onPress={setSelection.bind(this,item.item)}><Text style={styles.listTypeText}>{item.item.listType}</Text></Pressable>
+        return <Pressable style={[item.item.selected ? [styles.listTypeItem,styles.selected] : [styles.listTypeItem]]} onPress={setSelection.bind(this,item.item)}><TextFont style={styles.listTypeText}>{item.item.listType}</TextFont></Pressable>
         }}
         keyExtractor={(item) => {
             return item.id;
     }}/>
         </View>
     <FlatList style={styles.goalSection} onRefresh={props.refresh} refreshing={props.refreshing} numColumns={1} data={props.userGoals} ItemSeparatorComponent={() => <View style={{ height: 15 }} />} renderItem={(itemData) => {
-        //console.log(itemData);
         return <GoalItem totalCount={props.userGoals.length} index={itemData.index} theme={props.userObj.theme} value={itemData.item} onDeleteItem={props.deleteGoal} _id={itemData.item._id} complete={props.completeGoal}/>;
         }}
         keyExtractor={(item) => {
@@ -54,7 +53,6 @@ return (
 export default forwardRef(GoalList);
 
 const styles = StyleSheet.create({
-    //list Type styles
     listType: {
         width: '100%',
         alignSelf: 'center'
@@ -62,7 +60,7 @@ const styles = StyleSheet.create({
     listTypeItem: {
         fontSize: 25,
         height: 30,
-        width: '110%',
+        width: '100%',
     },
     listTypeText: {
         width: '100%',
@@ -74,8 +72,6 @@ const styles = StyleSheet.create({
         borderTopWidth: 2,
         borderColor: 'gray'
     },
-
-    //goal section styles
     goalSection: {
         padding: 10,
         paddingTop: 0,

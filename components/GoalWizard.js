@@ -1,5 +1,6 @@
-import { View, TextInput, Button, StyleSheet, Text, Pressable,TouchableWithoutFeedback, Keyboard, Animated, FlatList} from 'react-native';
+import { View, TextInput, Button, StyleSheet, Pressable,TouchableWithoutFeedback, Keyboard, Animated, FlatList} from 'react-native';
 import { useState, useRef, useEffect } from 'react'
+import TextFont from './TextFont';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 import {intro, step1,step2,step3,step4,step5,Finance,Health,Education,Work,Social,Personal } from '../functions/wizardHelper';
@@ -25,10 +26,16 @@ function GoalWizard(props) {
       //console.log(props);
     }, []); 
 
-    function next(){
-      let newStage = stage + 1;
+    function next(value){
+      let newStage = stage + (value);
       setStage(newStage);
       switch (newStage) {
+        case 0 : 
+          setHeader(intro.header);
+          setSubHeader(intro.subHeader);
+          setContent([]);
+          setDisabled(false)
+          break;
         case 1:
           setHeader(step1.header);
           setSubHeader(step1.subHeader);
@@ -67,6 +74,9 @@ function GoalWizard(props) {
       }
       if(stage < 5){
         setDisabled(true);
+      }
+      if(newStage == 0){
+        setDisabled(false);
       }
     }
     function subCategoryContent(subcategory){
@@ -128,13 +138,13 @@ function GoalWizard(props) {
 
     return (
       <View style={[styles.inputContainer]}>
-        <Text style={[styles.headerText , {color:props.userObj.theme.secondary}]}>{header}</Text>
-        <Text style={[styles.headerSubText, {color:props.userObj.theme.secondary}]}>{subHeader} {stage == 3 ? goalHelperText + ' Target?' : null}</Text>
+        <TextFont style={[styles.headerText , {color:props.userObj.theme.secondary}]}>{header}</TextFont>
+        <TextFont style={[styles.headerSubText, {color:props.userObj.theme.secondary}]}>{subHeader} {stage == 3 ? goalHelperText + ' Target?' : null}</TextFont>
         {stage > 2 ? <View style={[styles.goalItem, {backgroundColor: props.userObj.theme.primary}]}>
           <View style={styles.moveIcon}>
             <FontAwesome5 name={'grip-lines'} />
           </View>
-          <Text style={[styles.goalTitle,styles.font]}>{subCategory} {goalTitle}</Text>
+          <TextFont style={[styles.goalTitle,styles.font]}>{subCategory} {goalTitle}</TextFont>
           <View style={[styles.diffColor, goalDifficulty == 'Easy' ? styles.easy: null, goalDifficulty == 'Medium' ? styles.medium: null, goalDifficulty == 'Hard' ? styles.hard: null]}></View>
           
         </View> : null}
@@ -153,15 +163,15 @@ function GoalWizard(props) {
                             ]}
                             onPress={() => buttonSelect(text, index)}
                           >
-                    <Text style={[styles.font, {color:props.userObj.theme.secondary}]}>
+                    <TextFont style={[styles.font, {color:props.userObj.theme.secondary}]}>
                       {text}
-                    </Text>
+                    </TextFont>
                     </Pressable>
                     ))}
                     </> : null}
                     {stage == 3 ? 
                     <>
-                    <Text style={[styles.goalTarget, {color:props.userObj.theme.secondary}]}>Goal Target</Text>
+                    <TextFont style={[styles.goalTarget, {color:props.userObj.theme.secondary}]}>Goal Target</TextFont>
                     <TextInput
                     style={[styles.formInput, {borderColor:props.userObj.theme.secondary}, {color:props.userObj.theme.secondary}]}
                     value={goalTitle}
@@ -172,11 +182,21 @@ function GoalWizard(props) {
                   </View>
         </View>
                 {text != null ? 
-                <Pressable style={({ pressed }) => 
+                <>
+                {(stage == 1 || stage == 2 || stage == 3) ?
+                <Pressable value={1} style={({ pressed }) => 
+                [styles.buttonContainer]}
+                onPress={() => next(-1)}>
+                <TextFont style={styles.button}>Back</TextFont>
+              </Pressable>
+                : <></>}
+                <Pressable value={1} style={({ pressed }) => 
                   [{opacity: disableNext ? 0.5 : 1},styles.buttonContainer]}
-                  onPress={next} disabled={disableNext}>
-                  <Text style={styles.button}>{text}</Text>
-                </Pressable>: <></>}
+                  onPress={() => next(1)} disabled={disableNext}>
+                  <TextFont style={styles.button}>{text}</TextFont>
+                </Pressable>
+                </>
+                : <></>}
       </View>
       );
 };
@@ -185,9 +205,10 @@ export default GoalWizard;
 
 const styles = StyleSheet.create({
     inputContainer: {
-        height: '100%',
+      marginTop: '10%',
+        height: '90%',
         width: '100%',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
       },
       headerText: {
         fontSize: 30,
@@ -204,7 +225,7 @@ const styles = StyleSheet.create({
       categoryContainer:{
         flexDirection: 'row',
         justifyContent: 'center',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
       },
       category:{
         marginBottom: '5%',

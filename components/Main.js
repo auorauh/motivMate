@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import Nav from './Nav';
 import GoalList from './GoalList';
+import TextFont from './TextFont'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 import * as Notifications from 'expo-notifications';
@@ -298,7 +299,7 @@ function completeGoal(_id) {
     <View style={[styles.container]}>
       <View style={styles.logoContainer}>
         <FontAwesome5 style={[styles.userIcon, userObj == {} ? {color:'#00bcd4'} : {color:theme.primary}]} name={'user-circle'} />
-        <Text style={styles.scoreText}>Score: {score}</Text>
+        <TextFont style={styles.scoreText}>Score: {score}</TextFont>
       </View>
       <View style={styles.goalSection}>
         {component}
@@ -313,7 +314,7 @@ function completeGoal(_id) {
         key={childKey}
         goals={allGoals}
         userObj={userObj} 
-        setTheme={updateTheme} 
+        setTheme={setTheme} 
         theme={theme} 
         goalInput={goalModal} 
         addGoal={startAddGoal}  

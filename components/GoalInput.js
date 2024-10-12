@@ -1,10 +1,11 @@
-import { View, TextInput, Button, StyleSheet, Modal, Text, Pressable,TouchableWithoutFeedback, Keyboard, Animated, ActivityIndicator} from 'react-native';
+import { View, TextInput, Button, StyleSheet, Modal, Pressable,TouchableWithoutFeedback, Keyboard, Animated, ActivityIndicator} from 'react-native';
 import { useState, useRef, useEffect } from 'react'
 import GoalWizard from './GoalWizard';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 import BackgroundSVG from '../assets/BackgroundSVG';
 import DarkBackground from '../assets/DarkBackground';
+import TextFont from './TextFont';
 
 
 function GoalInput(props) {
@@ -109,9 +110,9 @@ function GoalInput(props) {
           {goalWizard==undefined ?
           <View style={[styles.wizardContainer, {backgroundColor:props.userObj.theme.background}]}>
           {props.userObj.theme.background != '#0e1111' ?  <BackgroundSVG/> : <DarkBackground/>}
-            <Pressable style={[styles.wizardButton,{backgroundColor:props.userObj.theme.primary}]} onPress={() => toggleGoalWizard(true)}><Text style={styles.wizardText}>Goal Wizard </Text><Text><FontAwesome5 style={styles.wizardIcon} name={'magic'} /> </Text></Pressable>
-            <Pressable style={[styles.wizardButton,{backgroundColor:props.userObj.theme.primary}]} onPress={() => toggleGoalWizard(false)}><Text style={styles.wizardText}>Custom goal</Text><Text><FontAwesome5 style={styles.wizardIcon} name={'list-alt'} /> </Text></Pressable>
-            <Pressable style={[styles.wizardButton,{backgroundColor:props.userObj.theme.primary}]} onPress={props.cancel}><Text style={styles.exitText}>Cancel</Text></Pressable>
+            <Pressable style={[styles.wizardButton,{backgroundColor:props.userObj.theme.primary}]} onPress={() => toggleGoalWizard(true)}><TextFont style={styles.wizardText}>Goal Wizard </TextFont><TextFont><FontAwesome5 style={styles.wizardIcon} name={'magic'} /> </TextFont></Pressable>
+            <Pressable style={[styles.wizardButton,{backgroundColor:props.userObj.theme.primary}]} onPress={() => toggleGoalWizard(false)}><TextFont style={styles.wizardText}>Custom goal</TextFont><TextFont><FontAwesome5 style={styles.wizardIcon} name={'list-alt'} /> </TextFont></Pressable>
+            <Pressable style={[styles.wizardButton,{backgroundColor:props.userObj.theme.primary}]} onPress={props.cancel}><TextFont style={styles.exitText}>Cancel</TextFont></Pressable>
           </View>
           : 
             <View style={[styles.inputContainer, {backgroundColor:props.userObj.theme.background}]}>
@@ -119,7 +120,7 @@ function GoalInput(props) {
                         {goalWizard==true ? <GoalWizard userObj={props.userObj} close={createWizardGoal}/> :
   <View style={styles.goalContainer}>
             <View style={styles.goalSection}>
-              <Text style={styles.subText}>Goal Title</Text>
+              <TextFont style={styles.subText}>Goal Title</TextFont>
                 <TextInput style={styles.textInput} 
                   placeholder='Your goal title'
                   placeholderTextColor={'gray'}
@@ -130,29 +131,29 @@ function GoalInput(props) {
                 />
             </View>
             <View style={styles.goalSection}>
-            <Text style={styles.subText}>Goal Type?</Text>
+            <TextFont style={styles.subText}>Goal Type?</TextFont>
                 <View style={styles.types}>
                   <Pressable style={[styles.typeChoice, goalType == 'daily' ? styles.typeHighlight : styles.typeChoice]} onPress={() => {setType('daily'), Keyboard.dismiss()}}>
                     <FontAwesome5 style={[styles.typeText, goalType == 'daily' ? styles.dailySelected : styles.typeText]} name={'history'} /> 
-                    <Text style={[styles.typeText, goalType == 'daily' ? styles.dailySelected : styles.typeText]}>Daily</Text>
+                    <TextFont style={[styles.typeText, goalType == 'daily' ? styles.dailySelected : styles.typeText]}>Daily</TextFont>
                   </Pressable>
                   <Pressable style={[styles.typeChoice, goalType == 'ToDo' ? styles.typeHighlight : styles.typeChoice]} onPress={() => {setType('ToDo'), Keyboard.dismiss()}}>
                     <FontAwesome5 style={[styles.typeText, goalType == 'ToDo' ? styles.dailySelected : styles.typeText]} name={'list-alt'} /> 
-                    <Text style={[styles.typeText, goalType == 'ToDo' ? styles.dailySelected : styles.typeText]}>To Do</Text>
+                    <TextFont style={[styles.typeText, goalType == 'ToDo' ? styles.dailySelected : styles.typeText]}>To Do</TextFont>
                   </Pressable>
                 </View>
             </View>
             <View style={styles.goalSection}>
-            <Text style={styles.subText}>Goal Difficulty?</Text>
+            <TextFont style={styles.subText}>Goal Difficulty?</TextFont>
                 <View style={styles.types}>
                   <Pressable style={[styles.difficulty, level == 'Easy' ? styles.typeHighlight : styles.difficulty]} onPress={() => {setLevel('Easy'), Keyboard.dismiss()}}>
-                    <Text style={[styles.typeText, level == 'Easy' ? styles.easy : styles.typeText]}>Easy</Text>
+                    <TextFont style={[styles.typeText, level == 'Easy' ? styles.easy : styles.typeText]}>Easy</TextFont>
                   </Pressable>
                   <Pressable style={[styles.difficulty, level == 'Medium' ? styles.typeHighlight : styles.difficulty]} onPress={() => {setLevel('Medium'), Keyboard.dismiss()}}>
-                    <Text style={[styles.typeText, level == 'Medium' ? styles.medium : styles.typeText]}>Medium</Text>
+                    <TextFont style={[styles.typeText, level == 'Medium' ? styles.medium : styles.typeText]}>Medium</TextFont>
                   </Pressable>
                   <Pressable style={[styles.difficulty, level == 'Hard' ? styles.typeHighlight : styles.difficulty]} onPress={() => {setLevel('Hard'), Keyboard.dismiss()}}>
-                    <Text style={[styles.typeText, level == 'Hard' ? styles.hard : styles.typeText]}>Hard</Text>
+                    <TextFont style={[styles.typeText, level == 'Hard' ? styles.hard : styles.typeText]}>Hard</TextFont>
                   </Pressable>
                 </View>
             </View>

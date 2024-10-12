@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
     nav: {
         height: '10%',
         width: '100%',
-        //backgroundColor: '#8C877E',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
@@ -70,7 +69,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        //transform: [{translateY: -7}],
       },
       navIcon: {
         fontSize: 25,
