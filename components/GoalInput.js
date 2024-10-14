@@ -98,7 +98,6 @@ function GoalInput(props) {
       setGoalText(goal.title);
       setType(goal.type);
       setLevel(goal.diff);
-      //wizardGoal();
     }
     async function wizardGoal(){
       await postGoal();

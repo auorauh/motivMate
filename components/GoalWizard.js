@@ -1,4 +1,4 @@
-import { View, TextInput, Button, StyleSheet, Pressable,TouchableWithoutFeedback, Keyboard, Animated, FlatList} from 'react-native';
+import { View, TextInput, Button, StyleSheet, Pressable,Image, Keyboard, Animated, FlatList} from 'react-native';
 import { useState, useRef, useEffect } from 'react'
 import TextFont from './TextFont';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -23,7 +23,6 @@ function GoalWizard(props) {
     const [goalType, setType] = useState('');
 
     useEffect(() => {
-      //console.log(props);
     }, []); 
 
     function next(value){
@@ -80,6 +79,7 @@ function GoalWizard(props) {
       }
     }
     function subCategoryContent(subcategory){
+
       switch (subcategory) {
         case 'Health':
           setContent(Health.content);
@@ -139,6 +139,7 @@ function GoalWizard(props) {
     return (
       <View style={[styles.inputContainer]}>
         <TextFont style={[styles.headerText , {color:props.userObj.theme.secondary}]}>{header}</TextFont>
+        {stage ==0 ? <Image style={styles.wizardLogo} source={require('../assets/WizardIcon.png')}></Image>: <></>}
         <TextFont style={[styles.headerSubText, {color:props.userObj.theme.secondary}]}>{subHeader} {stage == 3 ? goalHelperText + ' Target?' : null}</TextFont>
         {stage > 2 ? <View style={[styles.goalItem, {backgroundColor: props.userObj.theme.primary}]}>
           <View style={styles.moveIcon}>
@@ -210,10 +211,15 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'space-evenly',
       },
+      wizardLogo: {
+        resizeMode: 'contain',
+        width: '100%',
+        height: '25%'
+      },
       headerText: {
         fontSize: 30,
         textAlign: 'center',
-        marginBottom: 20
+        marginBottom: 10
       },
       headerSubText: {
         textAlign: 'center',
@@ -255,10 +261,6 @@ const styles = StyleSheet.create({
       goalTitleText: {
         textAlign: 'center',
       },
-
-      creationScreen: {
-        //...StyleSheet.absoluteFill,
-      }, 
       formInput: {
         borderWidth: 1,
         height: 50,

@@ -87,7 +87,6 @@ function startCreation(){
   setCreation(true);
 }
 function createAccount(){
-  //vaidate info
   setError('');
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   if(emailRegex.test(userEmail)){

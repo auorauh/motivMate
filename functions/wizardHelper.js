@@ -6,7 +6,7 @@ export const intro = {
 export const step1 = {
     header: 'Step 1: Get Specific',
     subHeader: 'Pick a category',
-    content: ['Health','Finanace','Education','Work','Personal','Social']
+    content: ['Health','Finance','Education','Work','Personal','Social']
 }
 export const step2 = {
     header: 'Step 2: Sub Category',
@@ -24,10 +24,10 @@ export const step5 = {
     subHeader: 'What type of goal is this?'
 }
 export const Health = {
-    content: ['Diet', 'Exercise', 'Hygene', 'Mental', 'Spiritual', 'Sleep']
+    content: ['Diet', 'Exercise', 'Nightly Routine', 'Mental Time', 'Spiritual Time', 'Sleep']
 }
 export const Finance = {
-    content: ['Save', 'Payoff', 'Earn', 'Invest', 'Give', 'Budget']
+    content: ['Save', 'Payoff', 'Earn', 'Invest', 'Give', 'Collect']
 }
 export const Education = {
     content: ['Practice', 'Study', 'Enroll', 'Complete', 'Learn', 'Research']
@@ -36,8 +36,8 @@ export const Work = {
     content: ['Apply', 'Finish', 'Review', 'Investigate', 'Conact', 'Collaborate']
 }
 export const Personal = {
-    content: ['Journal', 'Chores', 'Read', 'Quit', 'Limit/Quit', 'Plan for ']
+    content: ['Journal', 'Chores', 'Read', 'Quit', 'Limit', 'Plan']
 }
 export const Social = {
-    content: ['Reach out', 'Schedule', 'Positivity', 'Volunteer', 'Socialize', 'Celebrate']
+    content: ['Reach out', 'Schedule', 'Positivity', 'Volunteer', 'Get out the house', 'Celebrate']
 }

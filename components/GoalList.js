@@ -1,7 +1,6 @@
 import { StyleSheet, View, Text, FlatList, Pressable,TouchableWithoutFeedback } from 'react-native';
 import { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import GoalItem from './GoalItem';
-import { JumpingTransition } from 'react-native-reanimated';
 import TextFont from './TextFont';
 
 function GoalList(props, ref) {

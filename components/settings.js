@@ -7,7 +7,6 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { getLocalData, saveLocalData, deleteLocalData } from '../functions/localDataUtility';
 import { red, yellow, blue, lavender, dark, mint, peach, coral, sky, sage} from '../functions/colors';
-import SwipeToDeleteComponent from './Swipe';
 import TextFont from './TextFont';
 
 function Settings(props) {
@@ -112,10 +111,8 @@ function Settings(props) {
     setTheme(theme);
     try {
       const response = await axios.put(`${props.API_URL}/api/users/${props.userObj.email}`, props.userObj);
-      props.cancel();
       return response.data;
     } catch (error) {
-      //console.error(error);
     }
   }
   async function toggleNotifications(){
@@ -135,7 +132,6 @@ function Settings(props) {
       content: {
         title: "Be your best today!",
         body: "Plan your day!",
-        // data: { data: "data goes here" }
       },
       trigger: {
         hour: 7,
@@ -147,7 +143,6 @@ function Settings(props) {
       content: {
         title: "Update your MotivMate!",
         body: "Mark your goals complete, see your score!",
-        // data: { data: "data goes here" }
       },
       trigger: {
         hour: 14,
@@ -157,8 +152,8 @@ function Settings(props) {
     });
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "Dont forget your goals!",
-        body: "Beat your score yesterday and complete some daily goals!",
+        title: "Dont lose your streak!",
+        body: "Beat your score yesterday!",
         // data: { data: "data goes here" }
       },
       trigger: {
@@ -215,6 +210,11 @@ function Settings(props) {
                 <Pressable style={[styles.mint, styles.color]} onPress={() =>changeColor( mint )}></Pressable>
               </View>
               <View style={styles.settingSection}>
+                <TextFont>Tap to Complete Goals</TextFont>
+                <TextFont>&</TextFont>
+                <TextFont>Hold to Delete Goals</TextFont>
+              </View>
+              <View style={styles.settingSection}>
                 <View style={styles.toggleSection}>
                   <View style={styles.notifications}>
                   <TextFont style={[{fontSize: 16}, {color:newTheme.secondary}]}>Notifications</TextFont>
@@ -265,9 +265,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    // position: 'absolute',
-    // top: 5,
-    // left: 10,
     fontSize: 20,
   },
   colorTray: {
@@ -322,11 +319,6 @@ const styles = StyleSheet.create({
   sage: {
     backgroundColor: sage.primary
   },
-  // toggleSection: {
-  //   flexDirection: 'row',
-  //   height: 50,
-  //   //justifyContent: 'center'
-  // },
   notifications: {
     borderRadius: 15,
     borderWidth: 2,

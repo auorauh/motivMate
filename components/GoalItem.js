@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
       },
       goalTextContainer: {
-        //width: '50%',
         flex: 1,
         height: '100%',
         alignItems: 'center',

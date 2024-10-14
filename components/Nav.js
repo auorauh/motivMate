@@ -18,7 +18,7 @@ export default function Nav(props) {
     props.setMainComponent(props.goalList);
   }
   function userButton(){
-    props.setMainComponent(<UserPage userObj={props.userObj} theme={props.theme} cancel={userButton}/>);
+    props.setMainComponent(<UserPage goals={props.goals} userObj={props.userObj} theme={props.theme} cancel={userButton}/>);
   }
   function analyticsButton(){
     props.setMainComponent(<AnalyticsPage goals={props.goals} userObj={props.userObj} theme={props.theme} cancel={analyticsButton}/>);

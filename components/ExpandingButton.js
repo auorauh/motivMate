@@ -6,7 +6,6 @@ function ExpandingButton() {
     const scaleValue = new Animated.Value(1);
   
     const handlePress = () => {
-      // Toggle the expansion state
       setExpanded(!expanded);
   
       // Use layout animation to smoothly animate the button expansion
@@ -21,9 +20,7 @@ function ExpandingButton() {
         <PanGestureHandler onGestureEvent={() => null}>
           <Animated.View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', transform: [{ scale: scaleValue }] }}>
             <TouchableOpacity onPress={handlePress}>
-              {/* Adjust the appearance of the button */}
               <View style={{ backgroundColor: 'blue', padding: 20, borderRadius: 10 }}>
-                {/* Content inside the button */}
               </View>
             </TouchableOpacity>
           </Animated.View>

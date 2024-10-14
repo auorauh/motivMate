@@ -107,7 +107,6 @@ export default AnalyticsPage;
 const styles = StyleSheet.create({
   analyticsPage: {
     alignItems: 'center',
-    //justifyContent: 'space-evenly',
     gap: '15%',
     padding: 10,
   },
